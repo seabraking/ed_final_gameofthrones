@@ -118,6 +118,9 @@ public class DataManagement implements DataManagementADT {
                       networkADT.addEdge(cidadeOrigem, cidadeDestino, dadosTrajetoAlternativa1);
                     networkADT.addEdge(cidadeOrigem, cidadeDestino, dadosTrajetoAlternativa2);
                     
+                    networkADT.addEdge(cidadeOrigem, cidadeDestino, dadosTrajetoAlternativa1);
+                    networkADT.addEdge(cidadeOrigem, cidadeDestino, dadosTrajetoAlternativa2);
+                    
                 }
                 
             }
