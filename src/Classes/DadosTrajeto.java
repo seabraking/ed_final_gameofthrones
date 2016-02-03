@@ -9,7 +9,7 @@ package Classes;
  *
  * @author Vitor
  */
-public class DadosTrajeto {
+public class DadosTrajeto<T> implements Comparable<T>{
      private double kms,dur,custo;
 
     public DadosTrajeto(double kms, double dur, double custo) {
@@ -46,5 +46,15 @@ public class DadosTrajeto {
     public double getCusto() {
         return custo;
     }
+
+    @Override
+    public int compareTo(T o) {
+     DadosTrajeto dadosTrajetoCompare = (DadosTrajeto) o;
+       if(dadosTrajetoCompare.kms < kms){
+           return 1;
+       }
+       return -1;
+    }
+    
     
 }

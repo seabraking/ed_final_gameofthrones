@@ -27,6 +27,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T>{
       
        int indexVertex1 = getIndex(vertex1);
        int indexVertex2 = getIndex(vertex2);
+       
        if(ajdListWeight[indexVertex1][indexVertex2]==null){
            adjMatrix[indexVertex1][indexVertex2]=true;
            ajdListWeight[indexVertex1][indexVertex2] = new LinkedHeap<>();

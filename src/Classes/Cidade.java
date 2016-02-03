@@ -9,7 +9,8 @@ package Classes;
  *
  * @author Vitor
  */
-public class Cidade {
+public class Cidade<T> implements Comparable<T> {
+
     private String nome;
     private int defesas;
 
@@ -33,5 +34,11 @@ public class Cidade {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
+
+    @Override
+    public int compareTo(T o) {
+        Cidade cidadeCompare = (Cidade) o;
+        return cidadeCompare.nome.compareTo(nome);
+    }
+
 }
