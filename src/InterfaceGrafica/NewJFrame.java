@@ -16,6 +16,8 @@ import Interfaces.DataManagementADT;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -212,9 +214,13 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        
-        VerCaminhoMapa caminhoMapa = new VerCaminhoMapa();
-        caminhoMapa.setVisible(true);
-       
+        ImagePanel panel = new ImagePanel(new ImageIcon("map.png").getImage());
+
+    JFrame frame = new JFrame();
+    frame.getContentPane().add(panel);
+    frame.pack();
+    frame.setVisible(true);
+    
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
