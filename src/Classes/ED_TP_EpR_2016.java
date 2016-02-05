@@ -108,21 +108,21 @@ static NetworkCidades network;
        /*mp.apresenta_caminho_barato(Pentos, Crossroads_Inn);*/
         mp.apresenta_caminho_curto(Vaes_Dothrak, The_eyrie);
     }
-//    public static void setAdjacencias(Cidade cidade) throws EmptyCollectionException{
-//        
-//       
-//        
-//        for (int i = 0; i < network.getVertices().length; i++) {
-//           if(network.getAdjMatrix()[network.getIndex(cidade)][i]){
-//               for (int j = 0; j <= network.ajdListWeight[network.getIndex(cidade)][i].size(); j++) {
-//                   DadosTrajeto dT = (DadosTrajeto) network.ajdListWeight[network.getIndex(cidade)][i].removeMin();
-//            
-//                   cidade.adicionar_trajeto(dT.getCidadeDestino(), dT.getKms(), dT.getDur(), dT.getCusto());
-//               
-//               }
-//               
-//           }
-//        }
-//     
-//    }
+    public static void setAdjacencias(Cidade cidade) throws EmptyCollectionException{
+        
+       
+        
+        for (int i = 0; i < network.getVertices().length; i++) {
+           if(network.getAdjMatrix()[network.getIndex(cidade)][i]){
+               for (int j = 0; j <= network.ajdListWeight[network.getIndex(cidade)][i].size(); j++) {
+                   DadosTrajeto dT = (DadosTrajeto) network.ajdListWeight[network.getIndex(cidade)][i].removeMin();
+            
+                   cidade.adicionar_trajeto(dT.getCidadeDestino(), dT.getKms(), dT.getDur(), dT.getCusto());
+               
+               }
+               
+           }
+        }
+     
+    }
 }
