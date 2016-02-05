@@ -32,32 +32,32 @@ public class LinkedQueue<T> implements QueueADT<T>{
 
     @Override
     public void enqueue(T element) {
-        LinearNode<T> linearNode = new LinearNode(element);
-        if(count==0){
-            this.front = linearNode;
-            this.rear = linearNode;
-            count++;
-        }else{
-            rear.setNext(linearNode);
-            this.rear = linearNode; 
-            count++;
+             //adicionar a cauda
+        LinearNode<T> x = new LinearNode(element);
+        if (isEmpty()) {
+            this.front = x;
+            this.count++;
+        } else {
+            this.rear.setNext(x);
+            this.count++;
         }
+        this.rear = x;
     }
 
     @Override
     public T dequeue() {
-    
-     
-        
-            T var = this.front.getElement();
-            if(rear==front){
-                rear=null;
-            }
-            this.front=front.getNext();
-            count--;
-            return var;
-            
-       
+     //remoiver ao cabeça
+        if (this.front.getNext() != null) {
+            LinearNode<T> x = this.front;
+            this.front = this.front.getNext();
+            this.count--;
+            return (T) x.getElement();
+        } else {
+            LinearNode<T> x = this.front;
+            this.front = null;
+            this.count--;
+            return (T) x.getElement();
+        }
        
     }
     
@@ -82,20 +82,59 @@ public class LinkedQueue<T> implements QueueADT<T>{
     return count;
     }
 
-    public void remove(T v) {
-        LinearNode<T> cidade = front;
-        
-    while(cidade.getNext()!= null){
-        if(cidade.getElement() == v){
-            cidade.setNext(cidade.getNext().getNext());
+   public void remove(T ob) {
+
+        if (!isEmpty()) {
+            LinearNode<T> x = this.front;
+            if (this.front.equals(x)) {
+                dequeue();
+            } else {
+                LinearNode<T> tpm = x.getNext();
+                for (int i = 0; i < this.count; i++) {
+                    if (tpm.getElement().equals(ob)) {
+                        x.setNext(tpm.getNext());
+                    }else{
+                        x = x.getNext();
+                        tpm = tpm.getNext();
+                    }
+                }
+            }
         }
-        cidade= cidade.getNext();
-    }
     }
 
 
 
- 
+    public LinkedStack inverteQueue(){
+        if(!isEmpty()){
+            LinkedStack new_q = new LinkedStack();
+            do{
+                new_q.push(dequeue());
+            }while(!isEmpty());
+            return new_q;
+        }else{
+            return null;
+        }
+    }
+    
+    /**
+     * Lista queue
+     * @throws Excepcoes.EmptyCollectionException
+     */
+    public LinkedQueue listar_queue_inversa() throws EmptyCollectionException{
+        LinkedQueue a = new LinkedQueue();
+        if (!isEmpty()){
+            LinkedStack q = inverteQueue();
+            do{
+                Object no =  q.pop();
+                System.out.print(no + " - ");
+                a.enqueue(no);
+            }while(!q.isEmpty());
+            System.out.println("  ");
+            return a;
+        }else{
+            return null;
+        }
+    }
     
     
 }

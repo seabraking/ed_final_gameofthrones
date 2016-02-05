@@ -7,6 +7,7 @@ package Ficheiros;
 
 import Classes.Cidade;
 import Classes.DadosTrajeto;
+import Classes.NetworkCidades;
 import ED_12_Parte1_Ex2.Network;
 import ED_12_Parte1_Ex2.NetworkADT;
 import Exeptions.FicheiroNaoEnc;
@@ -28,10 +29,10 @@ public class DataManagement implements DataManagementADT {
     }
 
     @Override
-    public NetworkADT obterNetwork(String ficheiro) throws IOException {
+    public  NetworkCidades obterNetwork(String ficheiro) throws IOException {
         //instanciar variaveis necessarias
-        NetworkADT networkADT = (NetworkADT) new Network();
-        try {
+        NetworkCidades networkADT = new NetworkCidades();
+//        try {
 
             //Instanciar FileReader's
             FileReader data = new FileReader(ficheiro);
@@ -101,9 +102,9 @@ public class DataManagement implements DataManagementADT {
                     
                     
                     DadosTrajeto dadosTrajetoAlternativa1 = new DadosTrajeto(Double.parseDouble(dadosArray[3]),
-                            Double.parseDouble(dadosArray[4]), Double.parseDouble(dadosArray[5]));
+                            Double.parseDouble(dadosArray[4]), Double.parseDouble(dadosArray[5]),cidadeDestino);
                     DadosTrajeto dadosTrajetoAlternativa2 = new DadosTrajeto(Double.parseDouble(dadosArray[6]),
-                            Double.parseDouble(dadosArray[7]), Double.parseDouble(dadosArray[8]));
+                            Double.parseDouble(dadosArray[7]), Double.parseDouble(dadosArray[8]),cidadeDestino);
 
                     networkADT.addEdge(cidadeOrigem, cidadeDestino, dadosTrajetoAlternativa1);
                     networkADT.addEdge(cidadeOrigem, cidadeDestino, dadosTrajetoAlternativa2);
@@ -112,11 +113,10 @@ public class DataManagement implements DataManagementADT {
                 }else{
                       cidadeDestino = new Cidade(dadosArray[2], 0);
                      DadosTrajeto dadosTrajetoAlternativa1 = new DadosTrajeto(Double.parseDouble(dadosArray[3]),
-                            Double.parseDouble(dadosArray[4]), Double.parseDouble(dadosArray[5]));
+                            Double.parseDouble(dadosArray[4]), Double.parseDouble(dadosArray[5]),cidadeDestino);
                     DadosTrajeto dadosTrajetoAlternativa2 = new DadosTrajeto(Double.parseDouble(dadosArray[6]),
-                            Double.parseDouble(dadosArray[7]), Double.parseDouble(dadosArray[8]));
-                      networkADT.addEdge(cidadeOrigem, cidadeDestino, dadosTrajetoAlternativa1);
-                    networkADT.addEdge(cidadeOrigem, cidadeDestino, dadosTrajetoAlternativa2);
+                            Double.parseDouble(dadosArray[7]), Double.parseDouble(dadosArray[8]),cidadeDestino);
+                     
                     
                     networkADT.addEdge(cidadeOrigem, cidadeDestino, dadosTrajetoAlternativa1);
                     networkADT.addEdge(cidadeOrigem, cidadeDestino, dadosTrajetoAlternativa2);
@@ -126,12 +126,12 @@ public class DataManagement implements DataManagementADT {
             }
             
             return networkADT;
-        } catch (Exception e) {
-            EscreverErrosFicheiro eef = new EscreverErrosFicheiro();
-            eef.escreverEmficheiro(e, "DataManager");
-            new FicheiroNaoEnc(e + "");
-            return networkADT;
-        }
+//        } catch (Exception e) {
+//            EscreverErrosFicheiro eef = new EscreverErrosFicheiro();
+//            eef.escreverEmficheiro(e, "DataManager");
+//            new FicheiroNaoEnc(e + "");
+//            return networkADT;
+//        }
 
     }
 

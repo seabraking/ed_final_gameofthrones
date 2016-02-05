@@ -13,7 +13,7 @@ package ED_12_Parte1_Ex2;
  *
  * @author Vitor
  */
-class EmptyCollectionException extends Exception {
+public class EmptyCollectionException extends Exception {
 
     public EmptyCollectionException(String list) {
         super(list);

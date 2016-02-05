@@ -45,6 +45,15 @@ public class Network<T> extends Graph<T> implements NetworkADT<T>{
         return null;
         
     }
+
+    public T[] getVertices() {
+        return vertices;
+    }
+
+    public boolean[][] getAdjMatrix() {
+        return adjMatrix;
+    }
+    
     
     
 }

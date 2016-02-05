@@ -5,7 +5,7 @@
  */
 package Interfaces;
 
-import ED_12_Parte1_Ex2.NetworkADT;
+import Classes.NetworkCidades;
 import java.io.IOException;
 
 /**
@@ -18,6 +18,6 @@ public interface DataManagementADT<T> {
      * @param ficheiro nome do ficheiro
      * @return uma rede de cidades do norte com as ligacoes e os dados de viagem entre as mesmas
      */
-   public NetworkADT<T> obterNetwork(String ficheiro)throws IOException;
+     NetworkCidades obterNetwork(String ficheiro)throws IOException;
     
 }

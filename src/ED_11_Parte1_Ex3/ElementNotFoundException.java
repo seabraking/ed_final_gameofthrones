@@ -11,7 +11,7 @@ package ED_11_Parte1_Ex3;
  *
  * @author Vitor
  */
-class ElementNotFoundException extends Exception {
+public class ElementNotFoundException extends Exception {
 
     public ElementNotFoundException(String list) {
         super(list);
