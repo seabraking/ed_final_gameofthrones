@@ -2,6 +2,7 @@ package Classes;
 
 import ED_12_Parte1_Ex2.EmptyCollectionException;
 import ED_12_Parte1_Ex2.LinkedQueue;
+import java.util.LinkedList;
 
 
 
@@ -136,6 +137,7 @@ public class Dijkstra<T> {
 
     }
 
+    
     public LinkedQueue apresenta_caminho_curto(T cidade1, T cidade2) throws EmptyCollectionException {
         Cidade ini = (Cidade) cidade1;
         Cidade fim = (Cidade) cidade2;
@@ -154,5 +156,7 @@ public class Dijkstra<T> {
         }
 
     }
+    
+  
 
 }
