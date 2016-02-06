@@ -8,8 +8,6 @@ package InterfaceGrafica;
 import Classes.Cidade;
 import Classes.DadosTrajeto;
 import Classes.Dijkstra;
-import static Classes.ED_TP_EpR_2016.setAdjacencias;
-import Classes.NetworkCidades;
 import ED_12_Parte1_Ex2.ArrayIterator;
 import ED_12_Parte1_Ex2.EmptyCollectionException;
 import ED_12_Parte1_Ex2.LinkedQueue;
@@ -38,41 +36,54 @@ import javax.swing.table.DefaultTableModel;
  */
 public class NewJFrame extends javax.swing.JFrame {
 
+    
     NetworkADT networkADT;
     ImagePanel panel = new ImagePanel(new ImageIcon("map.png").getImage());
-    NetworkCidades network;
-
     /**
      * Creates new form NewJFrame
      */
     public NewJFrame() {
-        try {
-            UIManager.setLookAndFeel(UIManager
-                    .getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
-        }
+         try {
+                UIManager.setLookAndFeel(UIManager
+                        .getSystemLookAndFeelClassName());
+            } catch (ClassNotFoundException | InstantiationException
+                    | IllegalAccessException | UnsupportedLookAndFeelException e) {
+                e.printStackTrace();
+            }
         initComponents();
+        
+                // setting up JFrame
+           //     setLayout(null);
+            //    setPreferredSize(new Dimension(420, 90));
+          //      setResizable(false);
+          //      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // setting up JFrame
-        //     setLayout(null);
-        //    setPreferredSize(new Dimension(420, 90));
-        //      setResizable(false);
-        //      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // creating main JPanel (white)
-        //     panelMain = new JPanel();
-        //     panelMain.setBackground(Color.WHITE);
-        //    panelMain.setBounds(0, 0, 420, 90);
-        //  panelMain.setPreferredSize(new Dimension(200, 40));
-        //     add(panelMain);
-        // creating JButton in the main JPanel (white)//
-        // creating new JPanelOne object from JPanelOne class containing black JPanel
-        // adding black JPanel to main JPanel (white)
-        panelMain.add(panel);
-        pack();
+                // creating main JPanel (white)
+           //     panelMain = new JPanel();
+           //     panelMain.setBackground(Color.WHITE);
+            //    panelMain.setBounds(0, 0, 420, 90);
+             //  panelMain.setPreferredSize(new Dimension(200, 40));
+           //     add(panelMain);
 
+                // creating JButton in the main JPanel (white)//
+
+                // creating new JPanelOne object from JPanelOne class containing black JPanel
+                
+
+                // adding black JPanel to main JPanel (white)
+               
+                panelMain.add(panel);
+                pack();
+               
     }
-
+    
+    
+    
+    
+    
+    
+    
+    
     /*
 
     }
@@ -319,193 +330,170 @@ public class NewJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void inicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inicioActionPerformed
-
+       
     }//GEN-LAST:event_inicioActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-
+         
+        
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Cidade");
         modelo.addColumn("Defesa");
-
-        DataManagementADT dataManagementADT = new DataManagement();
+        
+         DataManagementADT dataManagementADT = new DataManagement();
         NetworkADT networkADT = new Network();
 
         try {
             networkADT = dataManagementADT.obterNetwork("./Ficheiros/dadosT.csv");
+        
 
-            ArrayIterator iterator = networkADT.iteratorBFS(0);
-
-            while (iterator.hasNext()) {
-                Cidade cidade = (Cidade) iterator.next();
-                modelo.addRow(new String[]{cidade.getNome(), String.valueOf(cidade.getDefesa())});
-
-                inicio.addItem(cidade.getNome());
-
-                fim.addItem(cidade.getNome());
-
-            }
-            jTable1.setModel(modelo);
+        ArrayIterator iterator = networkADT.iteratorBFS(0);
+        
+        while (iterator.hasNext()) {
+            Cidade cidade = (Cidade) iterator.next();
+            modelo.addRow(new String[]{cidade.getNome(),String.valueOf(cidade.getDefesa())});
+            
+             inicio.addItem(cidade.getNome());
+             
+             fim.addItem(cidade.getNome());
+             
+        }
+        jTable1.setModel(modelo);
         } catch (IOException ex) {
             try {
                 EscreverErrosFicheiro eef = new EscreverErrosFicheiro();
                 eef.escreverEmficheiro(ex, "DataManager");
-                new FicheiroNaoEnc(ex + "");
-            } catch (IOException ex1) {
+                 new FicheiroNaoEnc(ex + "");
+       }   catch (IOException ex1) {
             }
         }
-
+        
+        
         //
-
+      
     }//GEN-LAST:event_formWindowOpened
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        try {                                         
-            // TODO add your handling code here:
-//        Cidade Vaes_Dothrak = new Cidade("Vaes Dothrak ", 73);
-//        Cidade Lhazareen_Village = new Cidade("Lhazareen Village ", 64);
-//        Cidade Qohor = new Cidade("Qohor ", 19);
-//        Cidade Pentos = new Cidade("Pentos ", 84);
-//        Cidade Kings_Landing = new Cidade("King's Landing ", 60);
-//        Cidade Crossroads_Inn = new Cidade("Crossroads Inn ", 0);
-//        Cidade The_eyrie = new Cidade("The eyrie ", 54);
-//        Cidade Winterfell = new Cidade("Winterfell ", 64);
-//        Cidade Castle_Black = new Cidade("Castle Black ", 50);
-//        
-//        Vaes_Dothrak.adicionar_trajeto(Castle_Black, 800.0, 10.0, 2.2);
-//        Vaes_Dothrak.adicionar_trajeto(Lhazareen_Village, 180.0, 2.3, 1.7);
-//        Vaes_Dothrak.adicionar_trajeto(Qohor, 400.0, 4.5, 0.2);
-//        Vaes_Dothrak.adicionar_trajeto(Castle_Black, 1040.0, 13.0, 1.5);
-//        Vaes_Dothrak.adicionar_trajeto(Lhazareen_Village, 198.0, 3.0, 0.3);
-//        Vaes_Dothrak.adicionar_trajeto(Qohor, 520.0, 5.9, 1.2);
-//
-//        
-//        Lhazareen_Village.adicionar_trajeto(Qohor, 300.0, 2.5, 0.4);
-//        Lhazareen_Village.adicionar_trajeto(Pentos, 500.0, 6.3, 0.3);
-//        Lhazareen_Village.adicionar_trajeto(Qohor, 390.0, 3.3, 2.7);
-//        Lhazareen_Village.adicionar_trajeto(Pentos, 650.0, 8.2, 2.8);
-//        
-//        Qohor.adicionar_trajeto(Pentos, 180.0, 3.7, 1.7);
-//        Qohor.adicionar_trajeto(Pentos, 126.0, 4.8, 0.6);
-//        
-//        Pentos.adicionar_trajeto(Kings_Landing, 160.0, 3.5, 2.4);
-//        Pentos.adicionar_trajeto(Crossroads_Inn, 200.0, 3.5, 1.2);
-//        Pentos.adicionar_trajeto(The_eyrie, 180.0, 4.9, 2.5);
-//        Pentos.adicionar_trajeto(Kings_Landing, 208.0, 4.6, 0.2);
-//        Pentos.adicionar_trajeto(Crossroads_Inn, 140.0, 4.6, 2.5);
-//        Pentos.adicionar_trajeto(The_eyrie, 234.0, 6.4, 3.0);
-//        
-//        Kings_Landing.adicionar_trajeto(Crossroads_Inn, 100.0, 1.2, 2.0);
-//        Kings_Landing.adicionar_trajeto(Crossroads_Inn, 110.0, 1.6, 1.4);
-//        
-//        Crossroads_Inn.adicionar_trajeto(The_eyrie, 50.0, 1.1, 0.7);
-//        Crossroads_Inn.adicionar_trajeto(Winterfell, 250.0, 5.5, 1.2);
-//        Crossroads_Inn.adicionar_trajeto(The_eyrie, 65.0, 1.4, 2.2);
-//        Crossroads_Inn.adicionar_trajeto(Winterfell, 275.0, 7.2, 0.4);
-//        
-//        The_eyrie.adicionar_trajeto(Winterfell, 210.0, 2.8, 2.6);
-//        The_eyrie.adicionar_trajeto(Winterfell, 231.0, 3.6, 2.1);
-//        
-//        Winterfell.adicionar_trajeto(Castle_Black, 120.0, 1.9, 0.9);
-//        Winterfell.adicionar_trajeto(Castle_Black, 108.0, 2.5, 3.0);
-
-
-
-DataManagementADT dataManagementADT = new DataManagement();
-network = new NetworkCidades();
-
-try {
-    network = dataManagementADT.obterNetwork("./Ficheiros/dadosT.csv");
-} catch (IOException ex) {
-    Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-}
-
-Dijkstra mp = new Dijkstra();
-/*mp.apresenta_caminho_barato(Pentos, Crossroads_Inn);
-
-Cidade Vaes_Dothrak = new Cidade("Vaes Dothrak ", 73);
-Cidade Lhazareen_Village = new Cidade("Lhazareen Village ", 64);
-Cidade Qohor = new Cidade("Qohor ", 19);
-Cidade Pentos = new Cidade("Pentos ", 84);
-Cidade Kings_Landing = new Cidade("King's Landing ", 60);
-Cidade Crossroads_Inn = new Cidade("Crossroads Inn ", 0);
-Cidade The_eyrie = new Cidade("The eyrie ", 54);
-Cidade Winterfell = new Cidade("Winterfell ", 64);
-Cidade Castle_Black = new Cidade("Castle Black ", 50);
-*/
-setAdjacencias((Cidade) network.getVertices()[0]);
-setAdjacencias((Cidade) network.getVertices()[1]);
-setAdjacencias((Cidade) network.getVertices()[2]);
-setAdjacencias((Cidade) network.getVertices()[3]);
-setAdjacencias((Cidade) network.getVertices()[4]);
-setAdjacencias((Cidade) network.getVertices()[5]);
-setAdjacencias((Cidade) network.getVertices()[6]);
-setAdjacencias((Cidade) network.getVertices()[7]);
-setAdjacencias((Cidade) network.getVertices()[8]);
-
-try {
-    Cidade inicioA, fimA;
-    String strInicio = inicio.getSelectedItem().toString();
-    if (strInicio.contains("Vaes Dothrak")) {
-        inicioA = (Cidade) network.getVertices()[0];
-    } else if (strInicio.contains("Lhazareen")) {
-        inicioA = (Cidade) network.getVertices()[1];
-    } else if (strInicio.contains("Qohor")) {
-        inicioA = (Cidade) network.getVertices()[2];
-    } else if (strInicio.contains("Pentos")) {
-        inicioA = (Cidade) network.getVertices()[3];
-    } else if (strInicio.contains("King")) {
-        inicioA = (Cidade) network.getVertices()[4];
-    } else if (strInicio.contains("Crossroads")) {
-        inicioA = (Cidade) network.getVertices()[5];
-    } else if (strInicio.contains("Winterfell")) {
-        inicioA = (Cidade) network.getVertices()[7];
-    } else if (strInicio.contains("Castle")) {
-        inicioA = (Cidade) network.getVertices()[8];
-    } else if (strInicio.contains("The")) {
-        inicioA = (Cidade) network.getVertices()[6];
-    } else {
-        inicioA = (Cidade) network.getVertices()[6];
-    }
-    
-    String strFim = fim.getSelectedItem().toString();
-    if (strFim.contains("Vaes Dothrak")) {
-        fimA = (Cidade) network.getVertices()[0];
-    } else if (strFim.contains("Lhazareen")) {
-        fimA = (Cidade) network.getVertices()[1];
-    } else if (strFim.contains("Qohor")) {
-        fimA = (Cidade) network.getVertices()[2];
-    } else if (strFim.contains("Pentos")) {
-        fimA = (Cidade) network.getVertices()[3];
-    } else if (strFim.contains("King")) {
-        fimA = (Cidade) network.getVertices()[4];
-    } else if (strFim.contains("Cross")) {
-        fimA = (Cidade) network.getVertices()[5];
-    } else if (strFim.contains("Winterfell")) {
-        fimA = (Cidade) network.getVertices()[7];
-    } else if (strFim.contains("Castle Black")) {
-        fimA = (Cidade) network.getVertices()[8];
-    } else if (strFim.contains("The")) {
-        fimA = (Cidade) network.getVertices()[6];
-    } else {
-        fimA = (Cidade) network.getVertices()[6];
-    }
-    DadosTrajeto c = null;
-    //   if(inicio.getSelectedItem().toString().equals("Vaes Dothrak"))
-    LinkedQueue<String> lq = mp.apresenta_caminho_curto(inicioA, fimA);
-    // System.out.println(c.getKms());
-    panel.sendShorthestPath(lq);
-    panel.repaint();
-    /*  while(lq.isEmpty()){
-    
-    //    g2.drawString("Caminho mais curto: "+ lq.dequeue(), 10, 500);
-    }*/
-} catch (EmptyCollectionException ex) {
-    Logger.getLogger(ImagePanel.class.getName()).log(Level.SEVERE, null, ex);
-}
-        } catch (ED_11_Parte1_Ex3.EmptyCollectionException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        // TODO add your handling code here:
+        Cidade Vaes_Dothrak = new Cidade("Vaes Dothrak ", 73);
+        Cidade Lhazareen_Village = new Cidade("Lhazareen Village ", 64);
+        Cidade Qohor = new Cidade("Qohor ", 19);
+        Cidade Pentos = new Cidade("Pentos ", 84);
+        Cidade Kings_Landing = new Cidade("King's Landing ", 60);
+        Cidade Crossroads_Inn = new Cidade("Crossroads Inn ", 0);
+        Cidade The_eyrie = new Cidade("The eyrie ", 54);
+        Cidade Winterfell = new Cidade("Winterfell ", 64);
+        Cidade Castle_Black = new Cidade("Castle Black ", 50);
+        
+        Vaes_Dothrak.adicionar_trajeto(Castle_Black, 800.0, 10.0, 2.2);
+        Vaes_Dothrak.adicionar_trajeto(Lhazareen_Village, 180.0, 2.3, 1.7);
+        Vaes_Dothrak.adicionar_trajeto(Qohor, 400.0, 4.5, 0.2);
+        Vaes_Dothrak.adicionar_trajeto(Castle_Black, 1040.0, 13.0, 1.5);
+        Vaes_Dothrak.adicionar_trajeto(Lhazareen_Village, 198.0, 3.0, 0.3);
+        Vaes_Dothrak.adicionar_trajeto(Qohor, 520.0, 5.9, 1.2);
+        
+        
+        Lhazareen_Village.adicionar_trajeto(Qohor, 300.0, 2.5, 0.4);
+        Lhazareen_Village.adicionar_trajeto(Pentos, 500.0, 6.3, 0.3);
+        Lhazareen_Village.adicionar_trajeto(Qohor, 390.0, 3.3, 2.7);
+        Lhazareen_Village.adicionar_trajeto(Pentos, 650.0, 8.2, 2.8);
+        
+        Qohor.adicionar_trajeto(Pentos, 180.0, 3.7, 1.7);
+        Qohor.adicionar_trajeto(Pentos, 126.0, 4.8, 0.6);
+        
+        Pentos.adicionar_trajeto(Kings_Landing, 160.0, 3.5, 2.4);
+        Pentos.adicionar_trajeto(Crossroads_Inn, 200.0, 3.5, 1.2);
+        Pentos.adicionar_trajeto(The_eyrie, 180.0, 4.9, 2.5);
+        Pentos.adicionar_trajeto(Kings_Landing, 208.0, 4.6, 0.2);
+        Pentos.adicionar_trajeto(Crossroads_Inn, 140.0, 4.6, 2.5);
+        Pentos.adicionar_trajeto(The_eyrie, 234.0, 6.4, 3.0);
+        
+        Kings_Landing.adicionar_trajeto(Crossroads_Inn, 100.0, 1.2, 2.0);
+        Kings_Landing.adicionar_trajeto(Crossroads_Inn, 110.0, 1.6, 1.4);
+        
+        Crossroads_Inn.adicionar_trajeto(The_eyrie, 50.0, 1.1, 0.7);
+        Crossroads_Inn.adicionar_trajeto(Winterfell, 250.0, 5.5, 1.2);
+        Crossroads_Inn.adicionar_trajeto(The_eyrie, 65.0, 1.4, 2.2);
+        Crossroads_Inn.adicionar_trajeto(Winterfell, 275.0, 7.2, 0.4);
+        
+        The_eyrie.adicionar_trajeto(Winterfell, 210.0, 2.8, 2.6);
+        The_eyrie.adicionar_trajeto(Winterfell, 231.0, 3.6, 2.1);
+        
+        Winterfell.adicionar_trajeto(Castle_Black, 120.0, 1.9, 0.9);
+        Winterfell.adicionar_trajeto(Castle_Black, 108.0, 2.5, 3.0);
+        Dijkstra mp = new Dijkstra();
+       /*mp.apresenta_caminho_barato(Pentos, Crossroads_Inn);
+        
+        Cidade Vaes_Dothrak = new Cidade("Vaes Dothrak ", 73);
+        Cidade Lhazareen_Village = new Cidade("Lhazareen Village ", 64);
+        Cidade Qohor = new Cidade("Qohor ", 19);
+        Cidade Pentos = new Cidade("Pentos ", 84);
+        Cidade Kings_Landing = new Cidade("King's Landing ", 60);
+        Cidade Crossroads_Inn = new Cidade("Crossroads Inn ", 0);
+        Cidade The_eyrie = new Cidade("The eyrie ", 54);
+        Cidade Winterfell = new Cidade("Winterfell ", 64);
+        Cidade Castle_Black = new Cidade("Castle Black ", 50);
+        */        
+      try {
+          Cidade inicioA, fimA;
+          String strInicio = inicio.getSelectedItem().toString();
+          if(strInicio.contains("Vaes Dothrak")){
+              inicioA = Vaes_Dothrak;
+          } else if(strInicio.contains("Lhazareen")){
+              inicioA = Lhazareen_Village;
+          } else if(strInicio.contains("Qohor")){
+              inicioA = Qohor;
+          }else if(strInicio.contains("Pentos")){
+              inicioA = Pentos;
+          }else if(strInicio.contains("King")){
+              inicioA = Kings_Landing;
+          }else if(strInicio.contains("Crossroads")){
+              inicioA = Crossroads_Inn;
+          }else if(strInicio.contains("Winterfell")){
+              inicioA = Winterfell;
+          }else if(strInicio.contains("Castle")){
+              inicioA = Castle_Black;
+          }else if(strInicio.contains("The")){
+              inicioA = The_eyrie;
+          } else {
+              inicioA = The_eyrie;
+          }
+          
+          String strFim = fim.getSelectedItem().toString();
+          if(strFim.contains("Vaes Dothrak")){
+              fimA = Vaes_Dothrak;
+          } else if(strFim.contains("Lhazareen")){
+              fimA = Lhazareen_Village;
+          } else if(strFim.contains("Qohor")){
+              fimA = Qohor;
+          }else if(strFim.contains("Pentos")){
+              fimA = Pentos;
+          }else if(strFim.contains("King")){
+              fimA = Kings_Landing;
+          }else if(strFim.contains("Cross")){
+              fimA = Crossroads_Inn;
+          }else if(strFim.contains("Winterfell")){
+              fimA = Winterfell;
+          }else if(strFim.contains("Castle Black")){
+              fimA = Castle_Black;
+          }else if(strFim.contains("The")){
+              fimA = The_eyrie;
+          } else {
+              fimA = The_eyrie;
+          }
+          DadosTrajeto c = null ;
+       //   if(inicio.getSelectedItem().toString().equals("Vaes Dothrak"))
+          LinkedQueue<String> lq = mp.apresenta_caminho_curto(inicioA, fimA);
+         // System.out.println(c.getKms());
+          panel.sendShorthestPath(lq);
+          panel.repaint();
+        /*  while(lq.isEmpty()){
+              
+          //    g2.drawString("Caminho mais curto: "+ lq.dequeue(), 10, 500);
+          }*/
+      } catch (EmptyCollectionException ex) {
+          Logger.getLogger(ImagePanel.class.getName()).log(Level.SEVERE, null, ex);
+      }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
@@ -545,21 +533,6 @@ try {
                 new NewJFrame().setVisible(true);
             }
         });
-    }
-    public void setAdjacencias(Cidade cidade) throws ED_11_Parte1_Ex3.EmptyCollectionException {
-
-        for (int i = 0; i < network.getVertices().length; i++) {
-            if (network.getAdjMatrix()[network.getIndex(cidade)][i]) {
-                for (int j = 0; j <= network.ajdListWeight[network.getIndex(cidade)][i].size(); j++) {
-                    DadosTrajeto dT = (DadosTrajeto) network.ajdListWeight[network.getIndex(cidade)][i].removeMin();
-
-                    cidade.adicionar_trajeto(dT.getCidadeDestino(), dT.getKms(), dT.getDur(), dT.getCusto());
-
-                }
-
-            }
-        }
-
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
