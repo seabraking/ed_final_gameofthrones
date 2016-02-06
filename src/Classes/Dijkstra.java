@@ -106,6 +106,7 @@ public class Dijkstra<T> {
         CaminhomaisBarato(ini);
         if (fim.getMinCusto() != Double.POSITIVE_INFINITY) {
             System.out.println("Custo de " + ini + " para " + fim + ": " + fim.getMinCusto());
+         //   distancia = new DadosTrajeto(fim.getMinCusto(), 0, 0, ini);
             LinkedQueue<Cidade> path = getCaminho_calculado(fim);
             System.out.print("Caminho mais barato: ");
             LinkedQueue caminhos = new LinkedQueue();
@@ -144,6 +145,7 @@ public class Dijkstra<T> {
         CaminhoMaisCurto(ini);
         if (fim.getMinDistance() != Double.POSITIVE_INFINITY) {
             System.out.println("Distancia de " + ini + "para " + fim + ": " + fim.getMinDistance());
+           
             LinkedQueue<Cidade> path = getCaminho_calculado(fim);
             System.out.print("Caminho mais curto: ");
             LinkedQueue caminhos = new LinkedQueue();

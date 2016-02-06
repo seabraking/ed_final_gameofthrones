@@ -63,18 +63,24 @@ class ImagePanel extends JPanel {
 
     if(!path.isEmpty()){
         g2.setColor(Color.MAGENTA);
-        g2.drawString("Shortest Path", 500, 20);
+        g2.drawString("Shortest Path", 300, 20);
         g2.setColor(Color.DARK_GRAY);
-        int count=35;
+        String s1="";
+        int pathsize = path.size();
         while(!path.isEmpty()) {
+            s1+= " => ";
             pathList.addToFront(path.dequeue().toString());
             try {
-                g2.drawString(pathList.first(), 500, count);
+
+                   s1+=pathList.first(); 
+         
+                
             } catch (EmptyCollectionException ex) {
                 Logger.getLogger(ImagePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
-            count+=15;
-        }
+           
+        } 
+        g2.drawString(s1, 150, 35);
          
     }
     
@@ -160,16 +166,88 @@ class ImagePanel extends JPanel {
     }
     g2.drawLine(105, 180, 85, 200);
     g2.setColor(Color.green);
-    g2.drawLine(40, 100, 85, 200);
-    g2.drawLine(85, 200, 92, 240);
     
+    //Winterfell - CrossRoads
+    ai = pathList.iterator();
+     found = 0;
+    while(ai.hasNext()){
+         String x1 ="";
+        String x = ai.next();
+        if(x.contains("Winterfell")){
+            found += 1;
+        }
+        if(x.contains("Cross")){
+            found += 1;
+        }
+    }
+    if(found==2){
+        g2.setColor(Color.red);
+    } else {
+        g2.setColor(Color.green);
+    }
+    g2.drawLine(40, 100, 85, 200);
+    g2.setColor(Color.green);
+    //KingsLand - Crossroads
+    ai = pathList.iterator();
+     found = 0;
+    while(ai.hasNext()){
+         String x1 ="";
+        String x = ai.next();
+        if(x.contains("Cross")){
+            found += 1;
+        }
+        if(x.contains("King")){
+            found += 1;
+        }
+    }
+    if(found==2){
+        g2.setColor(Color.red);
+    } else {
+        g2.setColor(Color.green);
+    }
+    g2.drawLine(85, 200, 92, 240);
+    g2.setColor(Color.green);
     //Pentos -- Crossroads Inn
+    ai = pathList.iterator();
+     found = 0;
+    while(ai.hasNext()){
+         String x1 ="";
+        String x = ai.next();
+        if(x.contains("Pentos")){
+            found += 1;
+        }
+        if(x.contains("Cross")){
+            found += 1;
+        }
+    }
+    if(found==2){
+        g2.setColor(Color.red);
+    } else {
+        g2.setColor(Color.green);
+    }
     g2.drawLine(172, 230, 85, 200);
      //Pentos -- King's Landing
+     ai = pathList.iterator();
+     found = 0;
+    while(ai.hasNext()){
+         String x1 ="";
+        String x = ai.next();
+        if(x.contains("Pentos")){
+            found += 1;
+        }
+        if(x.contains("King")){
+            found += 1;
+        }
+    }
+    if(found==2){
+        g2.setColor(Color.red);
+    } else {
+        g2.setColor(Color.green);
+    }
     g2.drawLine(172, 230, 92, 240);
     
     //Pentos -- The eyrie
-     //The eyerie - Cross
+    
     ai = pathList.iterator();
      found = 0;
     while(ai.hasNext()){
@@ -230,11 +308,66 @@ class ImagePanel extends JPanel {
     g2.drawLine(250, 240, 172, 230);
    g2.setColor(Color.green);
     //Lhazareen Village - Pentos
+    ai = pathList.iterator();
+     found = 0;
+    while(ai.hasNext()){
+         String x1 ="";
+        String x = ai.next();
+        if(x.contains("Lhaz")){
+            found += 1;
+        }
+        if(x.contains("Pentos")){
+            found += 1;
+        }
+    }
+    if(found==2){
+        g2.setColor(Color.red);
+    } else {
+        g2.setColor(Color.green);
+    }
     g2.drawLine(400, 290, 172, 230);     
+    g2.setColor(Color.green);
         //Vaes- Lhazaren
+        ai = pathList.iterator();
+     found = 0;
+    while(ai.hasNext()){
+         String x1 ="";
+        String x = ai.next();
+        if(x.contains("Vaes")){
+            found += 1;
+        }
+        if(x.contains("Lhaz")){
+            found += 1;
+        }
+    }
+    if(found==2){
+        g2.setColor(Color.red);
+    } else {
+        g2.setColor(Color.green);
+    }
     g2.drawLine(400, 290, 450, 235);
     //Lazaren - Qohor
+    ai = pathList.iterator();
+     found = 0;
+    while(ai.hasNext()){
+         String x1 ="";
+        String x = ai.next();
+        if(x.contains("Lhaz")){
+            found += 1;
+        }
+        if(x.contains("Qohor")){
+            found += 1;
+        }
+    }
+    if(found==2){
+        g2.setColor(Color.red);
+    } else {
+        g2.setColor(Color.green);
+    }
     g2.drawLine(400, 290, 250, 240);
+    
+    //Desenhar Ponto
+    
     g2.setColor(Color.red);
     g2.fillOval(80, 50, 10, 10);
     g2.setColor(Color.black);

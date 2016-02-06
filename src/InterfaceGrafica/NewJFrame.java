@@ -6,6 +6,7 @@
 package InterfaceGrafica;
 
 import Classes.Cidade;
+import Classes.DadosTrajeto;
 import Classes.Dijkstra;
 import ED_12_Parte1_Ex2.ArrayIterator;
 import ED_12_Parte1_Ex2.EmptyCollectionException;
@@ -444,7 +445,7 @@ public class NewJFrame extends javax.swing.JFrame {
               inicioA = Qohor;
           }else if(strInicio.contains("Pentos")){
               inicioA = Pentos;
-          }else if(strInicio.contains("Kings")){
+          }else if(strInicio.contains("King")){
               inicioA = Kings_Landing;
           }else if(strInicio.contains("Crossroads")){
               inicioA = Crossroads_Inn;
@@ -467,7 +468,7 @@ public class NewJFrame extends javax.swing.JFrame {
               fimA = Qohor;
           }else if(strFim.contains("Pentos")){
               fimA = Pentos;
-          }else if(strFim.contains("Kings Landing")){
+          }else if(strFim.contains("King")){
               fimA = Kings_Landing;
           }else if(strFim.contains("Cross")){
               fimA = Crossroads_Inn;
@@ -480,8 +481,10 @@ public class NewJFrame extends javax.swing.JFrame {
           } else {
               fimA = The_eyrie;
           }
+          DadosTrajeto c = null ;
        //   if(inicio.getSelectedItem().toString().equals("Vaes Dothrak"))
           LinkedQueue<String> lq = mp.apresenta_caminho_curto(inicioA, fimA);
+         // System.out.println(c.getKms());
           panel.sendShorthestPath(lq);
           panel.repaint();
         /*  while(lq.isEmpty()){
