@@ -12,27 +12,42 @@ import ED_12_Parte1_Ex2.ArrayUnorderedList;
 import ED_12_Parte1_Ex2.EmptyCollectionException;
 import ED_12_Parte1_Ex2.LinkedQueue;
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  *
  * @author Vitor
  */
-class ImagePanel extends JPanel {
+class ImagePanel extends JPanel implements MouseListener {
 
   private Image img;
   LinkedQueue path = new LinkedQueue();
     ArrayUnorderedList<String> pathList = new ArrayUnorderedList();
+  private int newcity=0;
+  private int x,y;
+  private String cityName="";
+  private int exercito=0;
+  private boolean existsPath=false;
+  
   public ImagePanel(String img) {
     this(new ImageIcon(img).getImage());
   }
@@ -45,13 +60,17 @@ class ImagePanel extends JPanel {
     setMaximumSize(size);
     setSize(size);
     setLayout(null);
+    this.addMouseListener(this);
+
   }
   
   public void sendShorthestPath(LinkedQueue paths){
       while(!paths.isEmpty()){
           this.path.enqueue(paths.dequeue());
+
       }
       pathList = new ArrayUnorderedList<>();
+   
   }
 
   public void paintComponent(Graphics g) {
@@ -82,6 +101,8 @@ class ImagePanel extends JPanel {
         } 
         g2.drawString(s1, 150, 35);
          
+    } else {
+        g2.drawString("", 300, 20);
     }
     
 
@@ -404,9 +425,58 @@ class ImagePanel extends JPanel {
     g2.fillOval(400, 285, 10, 10);
     g2.setColor(Color.black);
     g2.drawString("Lhazareen Village", 400, 325);
-    Dijkstra mp = new Dijkstra();
+    if(newcity==1){
+    g2.drawString(cityName + " : " + exercito, x, y-5);
+    g2.setColor(Color.blue);
+    g2.fillOval(x, y, 30, 30);
+    }
         
        
   }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        JPanel p = new JPanel();
+  JTextField nomeCidade = new JTextField(10);
+  JTextField exercito = new JTextField(10);
+
+  p.add(new JLabel("Nome da Cidade:"));
+  p.add(nomeCidade);
+  p.add(new JLabel("Exercito : "));
+  p.add(exercito);
+
+  if(JOptionPane.showConfirmDialog(null, p, "Criar Nova Cidade ", JOptionPane.OK_CANCEL_OPTION)==JOptionPane.OK_OPTION)
+  {
+      System.out.println(nomeCidade.getText());
+       x = e.getX();
+      y = e.getY();
+      newcity=1;
+      cityName = nomeCidade.getText();
+      this.exercito = Integer.parseInt(exercito.getText());
+        repaint();
+  }
+  
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }
