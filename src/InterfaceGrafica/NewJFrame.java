@@ -11,6 +11,7 @@ import Classes.Dijkstra;
 import ED_12_Parte1_Ex2.ArrayIterator;
 import ED_12_Parte1_Ex2.EmptyCollectionException;
 import ED_12_Parte1_Ex2.LinkedQueue;
+import ED_12_Parte1_Ex2.LinkedStack;
 import ED_12_Parte1_Ex2.Network;
 import ED_12_Parte1_Ex2.NetworkADT;
 import Exeptions.FicheiroNaoEnc;
@@ -130,6 +131,10 @@ public class NewJFrame extends javax.swing.JFrame {
         status = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
+        a1 = new javax.swing.JRadioButton();
+        a2 = new javax.swing.JRadioButton();
+        jRadioButton3 = new javax.swing.JRadioButton();
+        jButton5 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel9s = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -190,7 +195,7 @@ public class NewJFrame extends javax.swing.JFrame {
         );
         panelMainLayout.setVerticalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 345, Short.MAX_VALUE)
+            .addGap(0, 312, Short.MAX_VALUE)
         );
 
         jTable1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
@@ -256,13 +261,13 @@ public class NewJFrame extends javax.swing.JFrame {
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jTextField4)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(4, 4, 4)
+                                .addComponent(jLabel6))
+                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField5)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -289,7 +294,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         status.setFont(new java.awt.Font("Leelawadee UI", 2, 14)); // NOI18N
@@ -306,6 +311,34 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
+        a1.setText("Alternativa 1");
+        a1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                a1ActionPerformed(evt);
+            }
+        });
+
+        a2.setText("Alternativa 2");
+        a2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                a2ActionPerformed(evt);
+            }
+        });
+
+        jRadioButton3.setText("Alternativa 3");
+        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Limpar Mapa");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -315,26 +348,35 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelMain, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(67, 67, 67)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(inicio, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(fim, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(status)))
+                        .addComponent(status))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(a1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(a2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jRadioButton3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(67, 67, 67)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(inicio, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(fim, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -354,10 +396,16 @@ public class NewJFrame extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(a1)
+                    .addComponent(a2)
+                    .addComponent(jRadioButton3)
+                    .addComponent(jButton5))
+                .addGap(9, 9, 9)
                 .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -551,8 +599,9 @@ public class NewJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField5ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+    private void atualizarGrafo(){
+             // TODO add your handling code here:
+         // TODO add your handling code here:
         Cidade Vaes_Dothrak = new Cidade("Vaes Dothrak ", 73);
         Cidade Lhazareen_Village = new Cidade("Lhazareen Village ", 64);
         Cidade Qohor = new Cidade("Qohor ", 19);
@@ -646,14 +695,128 @@ public class NewJFrame extends javax.swing.JFrame {
         }
         DadosTrajeto c = null ;
         try {
-            LinkedQueue<String> lq = mp.apresenta_caminho_curto(inicioA, fimA);
+            LinkedQueue<String> lq = mp.apresenta_segundo_caminho_curto(inicioA, fimA);
+          //  LinkedQueue<String> cq = mp.apresenta_caminho_curto(inicioA, fimA);
             // System.out.println(c.getKms());
-
             panel.sendShorthestPath(lq);
             panel.repaint();
+    
         } catch (Exception eee){
             status.setText("Caminho nao encontrado..");
         }
+    }
+    
+     private void resetGrafo(){
+             // TODO add your handling code here:
+         // TODO add your handling code here:
+        Cidade Vaes_Dothrak = new Cidade("Vaes Dothrak ", 73);
+        Cidade Lhazareen_Village = new Cidade("Lhazareen Village ", 64);
+        Cidade Qohor = new Cidade("Qohor ", 19);
+        Cidade Pentos = new Cidade("Pentos ", 84);
+        Cidade Kings_Landing = new Cidade("King's Landing ", 60);
+        Cidade Crossroads_Inn = new Cidade("Crossroads Inn ", 0);
+        Cidade The_eyrie = new Cidade("The eyrie ", 54);
+        Cidade Winterfell = new Cidade("Winterfell ", 64);
+        Cidade Castle_Black = new Cidade("Castle Black ", 50);
+
+        Vaes_Dothrak.adicionar_trajeto(Castle_Black, 800.0, 10.0, 2.2);
+        Vaes_Dothrak.adicionar_trajeto(Lhazareen_Village, 180.0, 2.3, 1.7);
+        Vaes_Dothrak.adicionar_trajeto(Qohor, 400.0, 4.5, 0.2);
+        Vaes_Dothrak.adicionar_trajeto(Castle_Black, 1040.0, 13.0, 1.5);
+        Vaes_Dothrak.adicionar_trajeto(Lhazareen_Village, 198.0, 3.0, 0.3);
+        Vaes_Dothrak.adicionar_trajeto(Qohor, 520.0, 5.9, 1.2);
+
+        Lhazareen_Village.adicionar_trajeto(Qohor, 300.0, 2.5, 0.4);
+        Lhazareen_Village.adicionar_trajeto(Pentos, 500.0, 6.3, 0.3);
+        Lhazareen_Village.adicionar_trajeto(Qohor, 390.0, 3.3, 2.7);
+        Lhazareen_Village.adicionar_trajeto(Pentos, 650.0, 8.2, 2.8);
+
+        Qohor.adicionar_trajeto(Pentos, 180.0, 3.7, 1.7);
+        Qohor.adicionar_trajeto(Pentos, 126.0, 4.8, 0.6);
+
+        Pentos.adicionar_trajeto(Kings_Landing, 160.0, 3.5, 2.4);
+        Pentos.adicionar_trajeto(Crossroads_Inn, 200.0, 3.5, 1.2);
+        Pentos.adicionar_trajeto(The_eyrie, 180.0, 4.9, 2.5);
+        Pentos.adicionar_trajeto(Kings_Landing, 208.0, 4.6, 0.2);
+        Pentos.adicionar_trajeto(Crossroads_Inn, 140.0, 4.6, 2.5);
+        Pentos.adicionar_trajeto(The_eyrie, 234.0, 6.4, 3.0);
+
+        Kings_Landing.adicionar_trajeto(Crossroads_Inn, 100.0, 1.2, 2.0);
+        Kings_Landing.adicionar_trajeto(Crossroads_Inn, 110.0, 1.6, 1.4);
+
+        Crossroads_Inn.adicionar_trajeto(The_eyrie, 50.0, 1.1, 0.7);
+        Crossroads_Inn.adicionar_trajeto(Winterfell, 250.0, 5.5, 1.2);
+        Crossroads_Inn.adicionar_trajeto(The_eyrie, 65.0, 1.4, 2.2);
+        Crossroads_Inn.adicionar_trajeto(Winterfell, 275.0, 7.2, 0.4);
+
+        The_eyrie.adicionar_trajeto(Winterfell, 210.0, 2.8, 2.6);
+        The_eyrie.adicionar_trajeto(Winterfell, 231.0, 3.6, 2.1);
+
+        Winterfell.adicionar_trajeto(Castle_Black, 120.0, 1.9, 0.9);
+        Winterfell.adicionar_trajeto(Castle_Black, 108.0, 2.5, 3.0);
+        Dijkstra mp = new Dijkstra();
+        Cidade inicioA, fimA;
+        String strInicio = inicio.getSelectedItem().toString();
+        if(strInicio.contains("Vaes Dothrak")){
+            inicioA = Vaes_Dothrak;
+        } else if(strInicio.contains("Lhazareen")){
+            inicioA = Lhazareen_Village;
+        } else if(strInicio.contains("Qohor")){
+            inicioA = Qohor;
+        }else if(strInicio.contains("Pentos")){
+            inicioA = Pentos;
+        }else if(strInicio.contains("King")){
+            inicioA = Kings_Landing;
+        }else if(strInicio.contains("Crossroads")){
+            inicioA = Crossroads_Inn;
+        }else if(strInicio.contains("Winterfell")){
+            inicioA = Winterfell;
+        }else if(strInicio.contains("Castle")){
+            inicioA = Castle_Black;
+        }else if(strInicio.contains("The")){
+            inicioA = The_eyrie;
+        } else {
+            inicioA = The_eyrie;
+        }
+        String strFim = fim.getSelectedItem().toString();
+        if(strFim.contains("Vaes Dothrak")){
+            fimA = Vaes_Dothrak;
+        } else if(strFim.contains("Lhazareen")){
+            fimA = Lhazareen_Village;
+        } else if(strFim.contains("Qohor")){
+            fimA = Qohor;
+        }else if(strFim.contains("Pentos")){
+            fimA = Pentos;
+        }else if(strFim.contains("King")){
+            fimA = Kings_Landing;
+        }else if(strFim.contains("Cross")){
+            fimA = Crossroads_Inn;
+        }else if(strFim.contains("Winterfell")){
+            fimA = Winterfell;
+        }else if(strFim.contains("Castle Black")){
+            fimA = Castle_Black;
+        }else if(strFim.contains("The")){
+            fimA = The_eyrie;
+        } else {
+            fimA = The_eyrie;
+        }
+        DadosTrajeto c = null ;
+        try {
+           
+            LinkedQueue<String> cq = mp.apresenta_segundo_caminho_curto(Vaes_Dothrak, Vaes_Dothrak);
+            // System.out.println(c.getKms());
+            panel.sendShorthestPath(cq);
+            panel.repaint();
+    
+        } catch (Exception eee){
+            status.setText("Caminho nao encontrado..");
+        }
+    }
+     
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    
+        atualizarGrafo();
+      
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void inicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inicioActionPerformed
@@ -673,6 +836,37 @@ public class NewJFrame extends javax.swing.JFrame {
 this.setSize(new Dimension(665, 675));
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void a1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_a1ActionPerformed
+      //  Dijkstra.setUltimaVisita("NONEV");
+      //  resetGrafo();
+      //  atualizarGrafo();
+      if(a2.isSelected()){
+          a2.setSelected(false);
+      }
+      atualizarGrafo();
+    }//GEN-LAST:event_a1ActionPerformed
+
+    private void a2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_a2ActionPerformed
+        // TODO add your handling code here:
+       // resetGrafo();
+       if(a1.isSelected()){
+          a1.setSelected(false);
+      }
+        atualizarGrafo();
+    }//GEN-LAST:event_a2ActionPerformed
+
+    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jRadioButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        a1.setSelected(false);
+        a2.setSelected(false);
+        resetGrafo();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -710,6 +904,8 @@ this.setSize(new Dimension(665, 675));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton a1;
+    private javax.swing.JRadioButton a2;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
@@ -720,6 +916,7 @@ this.setSize(new Dimension(665, 675));
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
@@ -735,6 +932,7 @@ this.setSize(new Dimension(665, 675));
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;

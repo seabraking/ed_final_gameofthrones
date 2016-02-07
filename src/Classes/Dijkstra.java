@@ -8,12 +8,17 @@ import java.util.LinkedList;
 
 
 public class Dijkstra<T> {
+private static String ultimaVisita="NONEVALUE";
+    public static void setUltimaVisita(String ultimaVisita) {
+        Dijkstra.ultimaVisita = ultimaVisita;
+    }
 
-    public static void CaminhoMaisCurto(Cidade source) {
+    
+    public static void CaminhoMaisCurto(Cidade source,int alternativa) {
         source.setMinDistance(0.);
         LinkedQueue<Cidade> cidadesQueue = new LinkedQueue<>();
         cidadesQueue.enqueue(source);
-
+        int count=0;
         while (!cidadesQueue.isEmpty()) {
             Cidade u = cidadesQueue.dequeue();
 
@@ -21,20 +26,59 @@ public class Dijkstra<T> {
             for (DadosTrajeto e : u.getAdjacencies()) {
                 if (e != null) {
                     Cidade v = e.getCidadeDestino();
-
+                        
+                  
                     double weight = e.getKms();
                     double distanceThroughU = u.getMinDistance() + weight;
                     if (distanceThroughU < v.getMinDistance()) {
                         cidadesQueue.remove(v);
-
+                            
                         v.setMinDistance(distanceThroughU);
                         v.setPrevious(u);
                         cidadesQueue.enqueue(v);
                     }
+                      }
+                }
+            
+        }
+    }
+    
+    public static void TresCaminhosMaisCurtos(Cidade source) {
+        source.setMinDistance(0.);
+        LinkedQueue<Cidade> cidadesQueue = new LinkedQueue<>();
+        cidadesQueue.enqueue(source);
+        int count=0;
+        while (!cidadesQueue.isEmpty()) {
+            Cidade u = cidadesQueue.dequeue();
+
+            // Visit each edge exiting u
+            for (DadosTrajeto e : u.getAdjacencies()) {
+                if (e != null) {
+                    Cidade v = e.getCidadeDestino();
+                    if(!v.getNome().contains(ultimaVisita)){
+                        
+                  
+                    double weight = e.getKms();
+                    double distanceThroughU = u.getMinDistance() + weight;
+                    if (distanceThroughU < v.getMinDistance()) {
+                        cidadesQueue.remove(v);
+                            
+                        v.setMinDistance(distanceThroughU);
+                        v.setPrevious(u);
+                        cidadesQueue.enqueue(v);
+                        
+                        //testes
+                        if(count==1){ 
+                        ultimaVisita = e.getCidadeDestino().getNome();
+                        }
+                        count++;
+                    }
+                      }
                 }
             }
         }
     }
+    
 
     public static void CaminhomaisBarato(Cidade source) {
         source.setMinCusto(0.);
@@ -142,7 +186,7 @@ public class Dijkstra<T> {
     public LinkedQueue apresenta_caminho_curto(T cidade1, T cidade2) throws EmptyCollectionException {
         Cidade ini = (Cidade) cidade1;
         Cidade fim = (Cidade) cidade2;
-        CaminhoMaisCurto(ini);
+        CaminhoMaisCurto(ini,1);
         if (fim.getMinDistance() != Double.POSITIVE_INFINITY) {
             System.out.println("Distancia de " + ini + "para " + fim + ": " + fim.getMinDistance());
            
@@ -158,7 +202,25 @@ public class Dijkstra<T> {
         }
 
     }
-    
+        public LinkedQueue apresenta_segundo_caminho_curto(T cidade1, T cidade2) throws EmptyCollectionException {
+        Cidade ini = (Cidade) cidade1;
+        Cidade fim = (Cidade) cidade2;
+        TresCaminhosMaisCurtos(ini);
+        if (fim.getMinDistance() != Double.POSITIVE_INFINITY) {
+            System.out.println("2a Alternativa . Distancia de " + ini + "para " + fim + ": " + fim.getMinDistance());
+           
+            LinkedQueue<Cidade> path = getCaminho_calculado(fim);
+            System.out.print("Caminho mais curto: ");
+            LinkedQueue caminhos = new LinkedQueue();
+            caminhos = path.listar_queue_inversa();
+            System.out.println("");
+            return caminhos;
+        } else {
+            System.out.println("Não existem caminhos possíveis de " + ini.getNome() + " para " + fim.getNome() + "\n");
+            return null;
+        }
+
+    }
   
 
 }

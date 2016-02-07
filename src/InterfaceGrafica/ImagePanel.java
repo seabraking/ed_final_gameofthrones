@@ -65,8 +65,17 @@ class ImagePanel extends JPanel implements MouseListener {
   }
   
   public void sendShorthestPath(LinkedQueue paths){
+      int count = 0;
+    //  dj.setUltimaVisita("NONE");
       while(!paths.isEmpty()){
-          this.path.enqueue(paths.dequeue());
+          String c = (String) paths.dequeue().toString();
+          this.path.enqueue(c);
+          System.out.println(c);
+          count++;
+          if(count==2){
+              Dijkstra.setUltimaVisita(c);
+              System.out.println("Last: " +c);
+          }
 
       }
       pathList = new ArrayUnorderedList<>();

@@ -106,7 +106,9 @@ static NetworkCidades network;
         Dijkstra mp = new Dijkstra();
         
        /*mp.apresenta_caminho_barato(Pentos, Crossroads_Inn);*/
-        mp.apresenta_caminho_curto(Vaes_Dothrak, The_eyrie);
+     //   mp.apresenta_caminho_curto(Vaes_Dothrak, The_eyrie);
+     //   mp.apresenta_segundo_caminho_curto(Vaes_Dothrak, The_eyrie);
+
     }
     public static void setAdjacencias(Cidade cidade) throws EmptyCollectionException{
         
