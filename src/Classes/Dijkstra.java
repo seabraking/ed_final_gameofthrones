@@ -9,12 +9,24 @@ import java.util.LinkedList;
 
 public class Dijkstra<T> {
 private static String ultimaVisita="NONEVALUE";
+private static int lastAdjVisited = 4;
     public static void setUltimaVisita(String ultimaVisita) {
         Dijkstra.ultimaVisita = ultimaVisita;
     }
 
+    public static void setLastAdjVisited(int lastAdjVisited) {
+        Dijkstra.lastAdjVisited = lastAdjVisited;
+    }
+
+   
+
+    public static int getLastAdjVisited() {
+        return lastAdjVisited;
+    }
     
-    public static void CaminhoMaisCurto(Cidade source,int alternativa) {
+    
+    
+    public static void CaminhoMaisCurto(Cidade source,int exercito) {
         source.setMinDistance(0.);
         LinkedQueue<Cidade> cidadesQueue = new LinkedQueue<>();
         cidadesQueue.enqueue(source);
@@ -27,11 +39,12 @@ private static String ultimaVisita="NONEVALUE";
                 if (e != null) {
                     Cidade v = e.getCidadeDestino();
                         
-                  
-                    double weight = e.getKms();
-                    double distanceThroughU = u.getMinDistance() + weight;
+                    double perdaCaminho = e.getCusto()*e.getKms();
+                    double weight = 100*Math.pow((e.getCidadeDestino().getDefesa()/10),1.8);
+                    
+                    double distanceThroughU = u.getMinDistance() + weight + perdaCaminho;
                     if (distanceThroughU < v.getMinDistance()) {
-                        cidadesQueue.remove(v);
+                        //cidadesQueue.remove(v);
                             
                         v.setMinDistance(distanceThroughU);
                         v.setPrevious(u);
@@ -39,7 +52,7 @@ private static String ultimaVisita="NONEVALUE";
                     }
                       }
                 }
-            
+            cidadesQueue.remove(u);
         }
     }
     
@@ -61,7 +74,7 @@ private static String ultimaVisita="NONEVALUE";
                     double weight = e.getKms();
                     double distanceThroughU = u.getMinDistance() + weight;
                     if (distanceThroughU < v.getMinDistance()) {
-                        cidadesQueue.remove(v);
+                        //cidadesQueue.remove(v);
                             
                         v.setMinDistance(distanceThroughU);
                         v.setPrevious(u);
@@ -76,6 +89,7 @@ private static String ultimaVisita="NONEVALUE";
                       }
                 }
             }
+            cidadesQueue.remove(u);
         }
     }
     
@@ -186,7 +200,7 @@ private static String ultimaVisita="NONEVALUE";
     public LinkedQueue apresenta_caminho_curto(T cidade1, T cidade2) throws EmptyCollectionException {
         Cidade ini = (Cidade) cidade1;
         Cidade fim = (Cidade) cidade2;
-        CaminhoMaisCurto(ini,1);
+        CaminhoMaisCurto(ini,25000);
         if (fim.getMinDistance() != Double.POSITIVE_INFINITY) {
             System.out.println("Distancia de " + ini + "para " + fim + ": " + fim.getMinDistance());
            

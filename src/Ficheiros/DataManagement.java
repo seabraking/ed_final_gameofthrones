@@ -59,7 +59,7 @@ public class DataManagement implements DataManagementADT {
                 if (dadosArray[0].compareTo("") != 0) {
 
                     cidadeOrigem = new Cidade(dadosArray[0], Integer.parseInt(dadosArray[1]));
-                    cidadeDestino = new Cidade(dadosArray[2], 0);
+                    
 
                     //adicionar cidades
                     networkADT.addVertex(cidadeOrigem);
@@ -97,8 +97,8 @@ public class DataManagement implements DataManagementADT {
                 dadosArray = linhaCompletaReplace.split(";");
                 if (dadosArray[0].compareTo("") != 0) {
 
-                    cidadeOrigem = new Cidade(dadosArray[0], Integer.parseInt(dadosArray[1]));
-                    cidadeDestino = new Cidade(dadosArray[2], 0);
+                    cidadeOrigem = (Cidade) networkADT.getVertices()[networkADT.getIndex(new Cidade(dadosArray[0], Integer.parseInt(dadosArray[1])))];
+                    cidadeDestino = (Cidade) networkADT.getVertices()[networkADT.getIndex(new Cidade(dadosArray[2], 0))];
                     
                     
                     DadosTrajeto dadosTrajetoAlternativa1 = new DadosTrajeto(Double.parseDouble(dadosArray[3]),
@@ -111,7 +111,7 @@ public class DataManagement implements DataManagementADT {
 
 
                 }else{
-                      cidadeDestino = new Cidade(dadosArray[2], 0);
+                      cidadeDestino = (Cidade) networkADT.getVertices()[networkADT.getIndex(new Cidade(dadosArray[2], 0))];
                      DadosTrajeto dadosTrajetoAlternativa1 = new DadosTrajeto(Double.parseDouble(dadosArray[3]),
                             Double.parseDouble(dadosArray[4]), Double.parseDouble(dadosArray[5]),cidadeDestino);
                     DadosTrajeto dadosTrajetoAlternativa2 = new DadosTrajeto(Double.parseDouble(dadosArray[6]),

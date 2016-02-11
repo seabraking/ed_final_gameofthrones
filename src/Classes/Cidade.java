@@ -124,4 +124,13 @@ public class Cidade implements Comparable<Cidade> {
     public void setMinDuracao(double minDuracao) {
         this.minDuracao = minDuracao;
     }
+
+    public void eliminarAdj(int trajeto) {
+
+        for (int i = trajeto; i < num_cidades; i++) {
+            ligacoes[i]= ligacoes[i+1];
+        }
+         num_cidades--;
+    }
+  
 }
