@@ -55,6 +55,9 @@ public class NewJFrame extends javax.swing.JFrame {
     NetworkCidades network;
     Jogador jogador;
     boolean eliminar = true;
+    boolean eliminar2 = true;
+    Cidade segundaCidade=null;
+    Cidade terceiraCidade=null;
     
     /**
      * Creates new form NewJFrame
@@ -760,8 +763,8 @@ Dijkstra mp = new Dijkstra();
         DadosTrajeto c = null ;
         try {
 
-            LinkedQueue<String> lq = mp.apresenta_caminho_curto(inicioA, fimA);
-           
+            LinkedQueue<Cidade> lq = mp.apresenta_caminho_curto(inicioA, fimA);
+            segundaCidade= lq.first().getNext().getElement();
             panel.sendShorthestPath(lq,fimA.getMinDistance());
             panel.repaint();
     
@@ -838,17 +841,14 @@ Dijkstra mp = new Dijkstra();
         DadosTrajeto c = null ;
         try {
             if(eliminar){
-//            LinkedQueue lq1 = mp.apresenta_caminho_curto(inicioA, fimA);
-//            Cidade segundaCidade = (Cidade) lq1.first().getNext().getElement();
-//            
-//                System.out.println("..................................."+cidadeOrigem+"\n"+segundaCidade);
-            inicioA.eliminarAdj(0);
+
+            inicioA.eliminarAdj(inicioA.getAdjIndex(segundaCidade));
             //inicioA.eliminarAdj(1);
             eliminar = false;
             }
            
-            LinkedQueue<String> lq = mp.apresenta_caminho_curto(inicioA, fimA);
-            
+            LinkedQueue<Cidade> lq = mp.apresenta_caminho_curto(inicioA, fimA);
+            terceiraCidade = (Cidade) lq.first().getNext().getElement();
             panel.sendShorthestPath(lq,fimA.getMinDistance());
             panel.repaint();
     
@@ -859,7 +859,7 @@ Dijkstra mp = new Dijkstra();
     }
      
      private void atualizarGrafo3() throws ED_11_Parte1_Ex3.EmptyCollectionException{
-            eliminar = true;
+            
 DataManagementADT dataManagementADT = new DataManagement();
 network = new NetworkCidades();
 
@@ -926,14 +926,16 @@ Dijkstra mp = new Dijkstra();
     }
         DadosTrajeto c = null ;
         try {
-            if(eliminar){
-                
-            inicioA.eliminarAdj(0);
-            //inicioA.eliminarAdj(1);
-            eliminar=false;
+            if(eliminar2){
+            inicioA.eliminarAdj(inicioA.getAdjIndex(segundaCidade));
+            if(terceiraCidade!=null){
+            inicioA.eliminarAdj(inicioA.getAdjIndex(terceiraCidade));
             }
-            LinkedQueue<String> lq = mp.apresenta_caminho_curto(inicioA, fimA);
             
+            //inicioA.eliminarAdj(1);
+            eliminar2=false;
+            }
+            LinkedQueue<Cidade> lq = mp.apresenta_caminho_curto(inicioA, fimA);
             panel.sendShorthestPath(lq,fimA.getMinDistance());
             panel.repaint();
     
@@ -1042,7 +1044,16 @@ this.setSize(new Dimension(665, 675));
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
-        // TODO add your handling code here:
+          // TODO add your handling code here:
+        // resetGrafo();
+        if(a1.isSelected()){
+            a1.setSelected(false);
+        }
+        try {
+            atualizarGrafo3();
+        } catch (ED_11_Parte1_Ex3.EmptyCollectionException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jRadioButton3ActionPerformed
 
     private void a2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_a2ActionPerformed

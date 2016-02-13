@@ -132,5 +132,19 @@ public class Cidade implements Comparable<Cidade> {
         }
          num_cidades--;
     }
+
+    public int getAdjIndex(Cidade segundaCidade) {
+    
+    int menor = -1;
+    double custo = Double.POSITIVE_INFINITY;
+    
+   for (int i = 0; i < num_cidades; i++) {
+            if(ligacoes[i].getCidadeDestino().compareTo(segundaCidade)==0 && ligacoes[i].getCusto()<custo){
+                menor=i;
+            }
+        }
+         return menor;
+    
+    }
   
 }
