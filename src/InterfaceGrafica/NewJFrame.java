@@ -35,6 +35,7 @@ import javax.print.Doc;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -49,44 +50,36 @@ import javax.swing.table.DefaultTableModel;
  */
 public class NewJFrame extends javax.swing.JFrame {
 
-    
     NetworkADT networkADT;
     ImagePanel panel = new ImagePanel(new ImageIcon("map.png").getImage());
     NetworkCidades network;
-    Jogador jogador;
-    boolean eliminar = true;
-    boolean eliminar2 = true;
-    Cidade segundaCidade=null;
-    Cidade terceiraCidade=null;
-    
+    Jogador jogador = null;
+
+    Cidade segundaCidade = null;
+    Cidade terceiraCidade = null;
+    LinkedQueue<Cidade> resultado = null;
+    double exercitoPerdas = 0;
+
     /**
      * Creates new form NewJFrame
      */
     public NewJFrame() {
-                
+
         this.setPreferredSize(new Dimension(675, 750));
         this.setTitle("Game of <T>hrones - AI ");
-         try {
-                UIManager.setLookAndFeel(UIManager
-                        .getSystemLookAndFeelClassName());
-            } catch (ClassNotFoundException | InstantiationException
-                    | IllegalAccessException | UnsupportedLookAndFeelException e) {
-                e.printStackTrace();
-            }
+        try {
+            UIManager.setLookAndFeel(UIManager
+                    .getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
         initComponents();
-       
-                panelMain.add(panel);
-                pack();
-               
+
+        panelMain.add(panel);
+        pack();
+
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
     /*
 
     }
@@ -113,44 +106,32 @@ public class NewJFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        durMax = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton7 = new javax.swing.JButton();
+        jTextField7 = new javax.swing.JTextField();
+        checkDur = new javax.swing.JCheckBox();
+        jCheckBox2 = new javax.swing.JCheckBox();
+        jCheckBox3 = new javax.swing.JCheckBox();
+        jCheckBox4 = new javax.swing.JCheckBox();
         status = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
         a1 = new javax.swing.JRadioButton();
         a2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jButton5 = new javax.swing.JButton();
+        a3 = new javax.swing.JRadioButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         nomeJ = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cidadeJ = new javax.swing.JComboBox<>();
         exercitoJ = new javax.swing.JFormattedTextField();
         jButton6 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel9s = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel9s1 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        inicio1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -172,7 +153,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Cidade Origem");
+        jLabel2.setText("Cidades Conquistadas");
 
         fim.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -201,7 +182,7 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGap(0, 312, Short.MAX_VALUE)
         );
 
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
@@ -215,16 +196,24 @@ public class NewJFrame extends javax.swing.JFrame {
                 {null, null}
             },
             new String [] {
-                "Title 1", "Title 2"
+                "Title 1", "Final"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(1).setHeaderValue("Final");
-        }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel2.setBackground(java.awt.SystemColor.activeCaption);
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        durMax.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+        durMax.setText("31");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -232,12 +221,15 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Custo Maximo (Tropas)");
+        jLabel6.setText("Custo Maximo");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Custo Máximo (p/combate)");
 
+        jTextField4.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+
+        jTextField5.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField5ActionPerformed(evt);
@@ -248,8 +240,13 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Numero Maximo de Combates");
 
-        jButton7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton7.setText("Definir Critérios");
+        checkDur.setBackground(java.awt.SystemColor.activeCaption);
+
+        jCheckBox2.setBackground(java.awt.SystemColor.activeCaption);
+
+        jCheckBox3.setBackground(java.awt.SystemColor.activeCaption);
+
+        jCheckBox4.setBackground(java.awt.SystemColor.activeCaption);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -258,52 +255,56 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(durMax, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                    .addComponent(jTextField4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(checkDur, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(17, 17, 17))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addComponent(jLabel6))
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField5)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCheckBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(126, 126, 126)
-                        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCheckBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(22, 22, 22))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(checkDur, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel7)
+                            .addComponent(durMax, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)
+                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(34, 34, 34))
         );
 
         status.setFont(new java.awt.Font("Leelawadee UI", 2, 14)); // NOI18N
@@ -312,39 +313,27 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Leelawadee UI", 3, 14)); // NOI18N
         jLabel4.setText("Status: ");
 
-        jButton3.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jButton3.setText("Opções =>");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        a1.setText("Alternativa 1");
+        a1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        a1.setText("Alternativa 2");
         a1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 a1ActionPerformed(evt);
             }
         });
 
-        a2.setText("Alternativa 2");
+        a2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        a2.setText("Alternativa 3");
         a2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 a2ActionPerformed(evt);
             }
         });
 
-        jRadioButton3.setText("Alternativa 3");
-        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+        a3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        a3.setText("Alternativa 1");
+        a3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton3ActionPerformed(evt);
-            }
-        });
-
-        jButton5.setText("Limpar Mapa");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                a3ActionPerformed(evt);
             }
         });
 
@@ -361,12 +350,17 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel13.setText("Cidade");
 
-        jComboBox1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        cidadeJ.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
         exercitoJ.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton6.setText("Criar Jogador");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -387,34 +381,35 @@ public class NewJFrame extends javax.swing.JFrame {
                         .addComponent(jLabel13)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cidadeJ, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)))
+                        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addComponent(jLabel13)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addComponent(jLabel12)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nomeJ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(exercitoJ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cidadeJ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6))
                 .addContainerGap())
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel12))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jButton8.setText(">> Mais Detalhes");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        jButton9.setBackground(java.awt.SystemColor.activeCaption);
+        jButton9.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jButton9.setText("Atacar!!");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                jButton9ActionPerformed(evt);
             }
         });
 
@@ -426,43 +421,37 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelMain, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(status))
+                        .addComponent(status)
+                        .addGap(3, 3, 3))
+                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(inicio, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(9, 9, 9)
-                                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(18, 18, 18)
-                                                .addComponent(fim, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(a1)
-                                .addGap(8, 8, 8)
-                                .addComponent(a2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(14, 14, 14)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(a3)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(a1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(a2))
+                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(9, 9, 9))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(inicio, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(fim, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -471,153 +460,34 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(fim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(inicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jRadioButton3)
-                    .addComponent(a2)
-                    .addComponent(a1)
-                    .addComponent(jButton8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(a3)
+                            .addComponent(a1)
+                            .addComponent(a2)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
                 .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(status))
-                .addContainerGap())
-        );
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jLabel9s.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel9s.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9s.setText("Editar Cidade");
-
-        jLabel1.setText("Nome da Cidade");
-
-        jLabel9.setText("Defesa");
-
-        jLabel9s1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel9s1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9s1.setText("Editar Tarjetos");
-
-        jTable2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Objetivo", "Distancia", "Tempo", "Velocidade"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable2);
-
-        inicio1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        inicio1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inicio1ActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText("Editar");
-
-        jButton4.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jButton4.setText("<= Opções");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jLabel9s, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(148, 148, 148)
-                                .addComponent(jLabel11))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField6))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel9)
-                                        .addGap(69, 69, 69))
-                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel9s1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(100, 100, 100))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(inicio1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel9s, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addGap(4, 4, 4)
-                .addComponent(jLabel11)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel9s1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(inicio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(29, 29, 29))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -626,18 +496,14 @@ public class NewJFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 677, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -645,425 +511,443 @@ public class NewJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        
-        
-        
-        
-       
-       
-        
+
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Cidade");
         modelo.addColumn("Defesa");
-        
-         DataManagementADT dataManagementADT = new DataManagement();
+        DataManagementADT dataManagementADT = new DataManagement();
         NetworkADT networkADT = new Network();
 
         try {
             networkADT = dataManagementADT.obterNetwork("./Ficheiros/dadosT.csv");
-        
 
-        ArrayIterator iterator = networkADT.iteratorBFS(0);
-        
-        while (iterator.hasNext()) {
-            Cidade cidade = (Cidade) iterator.next();
-            modelo.addRow(new String[]{cidade.getNome(),String.valueOf(cidade.getDefesa())});
-            
-             inicio.addItem(cidade.getNome());
-             jComboBox1.addItem(cidade.getNome());
-             fim.addItem(cidade.getNome());
-             
-        }
-        jTable1.setModel(modelo);
-        
-        UnorderedListADT lista = new ArrayUnorderedList<String>();
-        lista.addToRear(jComboBox1.getSelectedItem().toString());
-         jogador = new Jogador(nomeJ.getText(), Integer.valueOf(exercitoJ.getText()),lista);
-         
+            ArrayIterator iterator = networkADT.iteratorBFS(0);
+            while (iterator.hasNext()) {
+                Cidade cidade = (Cidade) iterator.next();
+                modelo.addRow(new String[]{cidade.getNome(), String.valueOf(cidade.getDefesa())});
+
+                cidadeJ.addItem(cidade.getNome());
+                fim.addItem(cidade.getNome());
+
+            }
+            jTable1.setModel(modelo);
+       
+
+
         } catch (IOException ex) {
             try {
                 EscreverErrosFicheiro eef = new EscreverErrosFicheiro();
                 eef.escreverEmficheiro(ex, "DataManager");
-                 new FicheiroNaoEnc(ex + "");
-       }   catch (IOException ex1) {
+                new FicheiroNaoEnc(ex + "");
+            } catch (IOException ex1) {
             }
         }
-        
-        
+
         //
-      
+
     }//GEN-LAST:event_formWindowOpened
 
-    private void atualizarGrafo() throws ED_11_Parte1_Ex3.EmptyCollectionException{
-            
-DataManagementADT dataManagementADT = new DataManagement();
-network = new NetworkCidades();
+    private void atualizarGrafo() throws ED_11_Parte1_Ex3.EmptyCollectionException {
 
-try {
-    network = dataManagementADT.obterNetwork("./Ficheiros/dadosT.csv");
-} catch (IOException ex) {
-}
+        DataManagementADT dataManagementADT = new DataManagement();
+        network = new NetworkCidades();
+
+        try {
+            network = dataManagementADT.obterNetwork("./Ficheiros/dadosT.csv");
+        } catch (IOException ex) {
+        }
         setAdjacencias((Cidade) network.getVertices()[0]);
-setAdjacencias((Cidade) network.getVertices()[1]);
-setAdjacencias((Cidade) network.getVertices()[2]);
-setAdjacencias((Cidade) network.getVertices()[3]);
-setAdjacencias((Cidade) network.getVertices()[4]);
-setAdjacencias((Cidade) network.getVertices()[5]);
-setAdjacencias((Cidade) network.getVertices()[6]);
-setAdjacencias((Cidade) network.getVertices()[7]);
-setAdjacencias((Cidade) network.getVertices()[8]);
-Dijkstra mp = new Dijkstra();
-       
-    Cidade inicioA, fimA;
-    String strInicio = inicio.getSelectedItem().toString();
-    if (strInicio.contains("Vaes Dothrak")) {
-        inicioA = (Cidade) network.getVertices()[0];
-    } else if (strInicio.contains("Lhazareen")) {
-        inicioA = (Cidade) network.getVertices()[1];
-    } else if (strInicio.contains("Qohor")) {
-        inicioA = (Cidade) network.getVertices()[2];
-    } else if (strInicio.contains("Pentos")) {
-        inicioA = (Cidade) network.getVertices()[3];
-    } else if (strInicio.contains("King")) {
-        inicioA = (Cidade) network.getVertices()[4];
-    } else if (strInicio.contains("Crossroads")) {
-        inicioA = (Cidade) network.getVertices()[5];
-    } else if (strInicio.contains("Winterfell")) {
-        inicioA = (Cidade) network.getVertices()[7];
-    } else if (strInicio.contains("Castle")) {
-        inicioA = (Cidade) network.getVertices()[8];
-    } else if (strInicio.contains("The")) {
-        inicioA =(Cidade) network.getVertices()[6];
-    } else {
-        inicioA = (Cidade) network.getVertices()[6];
-    }
-    
-    String strFim = fim.getSelectedItem().toString();
-    if (strFim.contains("Vaes Dothrak")) {
-        fimA = (Cidade) network.getVertices()[0];
-    } else if (strFim.contains("Lhazareen")) {
-        fimA = (Cidade) network.getVertices()[1];
-    } else if (strFim.contains("Qohor")) {
-        fimA = (Cidade) network.getVertices()[2];
-    } else if (strFim.contains("Pentos")) {
-        fimA = (Cidade) network.getVertices()[3];
-    } else if (strFim.contains("King")) {
-        fimA = (Cidade) network.getVertices()[4];
-    } else if (strFim.contains("Cross")) {
-        fimA = (Cidade) network.getVertices()[5];
-    } else if (strFim.contains("Winterfell")) {
-        fimA = (Cidade) network.getVertices()[7];
-    } else if (strFim.contains("Castle Black")) {
-        fimA = (Cidade) network.getVertices()[8];
-    } else if (strFim.contains("The")) {
-        fimA = (Cidade) network.getVertices()[6];
-    } else {
-        fimA = (Cidade) network.getVertices()[6];
-    }
-        DadosTrajeto c = null ;
+        setAdjacencias((Cidade) network.getVertices()[1]);
+        setAdjacencias((Cidade) network.getVertices()[2]);
+        setAdjacencias((Cidade) network.getVertices()[3]);
+        setAdjacencias((Cidade) network.getVertices()[4]);
+        setAdjacencias((Cidade) network.getVertices()[5]);
+        setAdjacencias((Cidade) network.getVertices()[6]);
+        setAdjacencias((Cidade) network.getVertices()[7]);
+        setAdjacencias((Cidade) network.getVertices()[8]);
+        Dijkstra mp = new Dijkstra();
+
+        Cidade inicioA, fimA;
+        String strInicio = inicio.getSelectedItem().toString();
+        if (strInicio.contains("Vaes Dothrak")) {
+            inicioA = (Cidade) network.getVertices()[0];
+        } else if (strInicio.contains("Lhazareen")) {
+            inicioA = (Cidade) network.getVertices()[1];
+        } else if (strInicio.contains("Qohor")) {
+            inicioA = (Cidade) network.getVertices()[2];
+        } else if (strInicio.contains("Pentos")) {
+            inicioA = (Cidade) network.getVertices()[3];
+        } else if (strInicio.contains("King")) {
+            inicioA = (Cidade) network.getVertices()[4];
+        } else if (strInicio.contains("Crossroads")) {
+            inicioA = (Cidade) network.getVertices()[5];
+        } else if (strInicio.contains("Winterfell")) {
+            inicioA = (Cidade) network.getVertices()[7];
+        } else if (strInicio.contains("Castle")) {
+            inicioA = (Cidade) network.getVertices()[8];
+        } else if (strInicio.contains("The")) {
+            inicioA = (Cidade) network.getVertices()[6];
+        } else {
+            inicioA = (Cidade) network.getVertices()[6];
+        }
+
+        String strFim = fim.getSelectedItem().toString();
+        if (strFim.contains("Vaes Dothrak")) {
+            fimA = (Cidade) network.getVertices()[0];
+        } else if (strFim.contains("Lhazareen")) {
+            fimA = (Cidade) network.getVertices()[1];
+        } else if (strFim.contains("Qohor")) {
+            fimA = (Cidade) network.getVertices()[2];
+        } else if (strFim.contains("Pentos")) {
+            fimA = (Cidade) network.getVertices()[3];
+        } else if (strFim.contains("King")) {
+            fimA = (Cidade) network.getVertices()[4];
+        } else if (strFim.contains("Cross")) {
+            fimA = (Cidade) network.getVertices()[5];
+        } else if (strFim.contains("Winterfell")) {
+            fimA = (Cidade) network.getVertices()[7];
+        } else if (strFim.contains("Castle Black")) {
+            fimA = (Cidade) network.getVertices()[8];
+        } else if (strFim.contains("The")) {
+            fimA = (Cidade) network.getVertices()[6];
+        } else {
+            fimA = (Cidade) network.getVertices()[6];
+        }
+        DadosTrajeto c = null;
         try {
 
-            LinkedQueue<Cidade> lq = mp.apresenta_caminho_curto(inicioA, fimA);
-            segundaCidade= lq.first().getNext().getElement();
-            panel.sendShorthestPath(lq,fimA.getMinDistance());
+            LinkedQueue<Cidade> lq;
+            if(checkDur.isSelected()) {
+              lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.parseDouble(durMax.getText()));
+
+            } else {
+                lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.POSITIVE_INFINITY);
+            }
+            segundaCidade = lq.first().getNext().getElement();
+
+            LinkedQueue<Cidade> asad = Dijkstra.getCaminho_calculado(fimA);
+            String perdasEach = "";
+            while (!asad.isEmpty()) {
+                Cidade cada = asad.dequeue();
+                perdasEach = "=> " + Math.round(cada.getPerdasPorCombate()) + perdasEach;
+            }
+            panel.sendShorthestPath(lq, fimA.getMinDistance(), fimA.getTotaljornada(), perdasEach);
             panel.repaint();
-    
-        } catch (Exception eee){
+            resultado = lq;
+            exercitoPerdas = Math.round(fimA.getMinDistance());
+
+        } catch (Exception eee) {
             status.setText("Caminho nao encontrado..");
         }
     }
-     private void atualizarGrafo2() throws ED_11_Parte1_Ex3.EmptyCollectionException{
-            
-DataManagementADT dataManagementADT = new DataManagement();
-network = new NetworkCidades();
 
-try {
-    network = dataManagementADT.obterNetwork("./Ficheiros/dadosT.csv");
-} catch (IOException ex) {
-}
-        setAdjacencias((Cidade) network.getVertices()[0]);
-setAdjacencias((Cidade) network.getVertices()[1]);
-setAdjacencias((Cidade) network.getVertices()[2]);
-setAdjacencias((Cidade) network.getVertices()[3]);
-setAdjacencias((Cidade) network.getVertices()[4]);
-setAdjacencias((Cidade) network.getVertices()[5]);
-setAdjacencias((Cidade) network.getVertices()[6]);
-setAdjacencias((Cidade) network.getVertices()[7]);
-setAdjacencias((Cidade) network.getVertices()[8]);
-Dijkstra mp = new Dijkstra();
-       
-    Cidade inicioA, fimA;
-    String strInicio = inicio.getSelectedItem().toString();
-    if (strInicio.contains("Vaes Dothrak")) {
-        inicioA = (Cidade) network.getVertices()[0];
-    } else if (strInicio.contains("Lhazareen")) {
-        inicioA = (Cidade) network.getVertices()[1];
-    } else if (strInicio.contains("Qohor")) {
-        inicioA = (Cidade) network.getVertices()[2];
-    } else if (strInicio.contains("Pentos")) {
-        inicioA = (Cidade) network.getVertices()[3];
-    } else if (strInicio.contains("King")) {
-        inicioA = (Cidade) network.getVertices()[4];
-    } else if (strInicio.contains("Crossroads")) {
-        inicioA = (Cidade) network.getVertices()[5];
-    } else if (strInicio.contains("Winterfell")) {
-        inicioA = (Cidade) network.getVertices()[7];
-    } else if (strInicio.contains("Castle")) {
-        inicioA = (Cidade) network.getVertices()[8];
-    } else if (strInicio.contains("The")) {
-        inicioA =(Cidade) network.getVertices()[6];
-    } else {
-        inicioA = (Cidade) network.getVertices()[6];
-    }
-    
-    String strFim = fim.getSelectedItem().toString();
-    if (strFim.contains("Vaes Dothrak")) {
-        fimA = (Cidade) network.getVertices()[0];
-    } else if (strFim.contains("Lhazareen")) {
-        fimA = (Cidade) network.getVertices()[1];
-    } else if (strFim.contains("Qohor")) {
-        fimA = (Cidade) network.getVertices()[2];
-    } else if (strFim.contains("Pentos")) {
-        fimA = (Cidade) network.getVertices()[3];
-    } else if (strFim.contains("King")) {
-        fimA = (Cidade) network.getVertices()[4];
-    } else if (strFim.contains("Cross")) {
-        fimA = (Cidade) network.getVertices()[5];
-    } else if (strFim.contains("Winterfell")) {
-        fimA = (Cidade) network.getVertices()[7];
-    } else if (strFim.contains("Castle Black")) {
-        fimA = (Cidade) network.getVertices()[8];
-    } else if (strFim.contains("The")) {
-        fimA = (Cidade) network.getVertices()[6];
-    } else {
-        fimA = (Cidade) network.getVertices()[6];
-    }
-        DadosTrajeto c = null ;
+    private void atualizarGrafo2() throws ED_11_Parte1_Ex3.EmptyCollectionException {
+
+        DataManagementADT dataManagementADT = new DataManagement();
+        network = new NetworkCidades();
+
         try {
-            if(eliminar){
+            network = dataManagementADT.obterNetwork("./Ficheiros/dadosT.csv");
+        } catch (IOException ex) {
+        }
+        setAdjacencias((Cidade) network.getVertices()[0]);
+        setAdjacencias((Cidade) network.getVertices()[1]);
+        setAdjacencias((Cidade) network.getVertices()[2]);
+        setAdjacencias((Cidade) network.getVertices()[3]);
+        setAdjacencias((Cidade) network.getVertices()[4]);
+        setAdjacencias((Cidade) network.getVertices()[5]);
+        setAdjacencias((Cidade) network.getVertices()[6]);
+        setAdjacencias((Cidade) network.getVertices()[7]);
+        setAdjacencias((Cidade) network.getVertices()[8]);
+        Dijkstra mp = new Dijkstra();
 
-            inicioA.eliminarAdj(inicioA.getAdjIndex(segundaCidade));
-            //inicioA.eliminarAdj(1);
-            eliminar = false;
+        Cidade inicioA, fimA;
+        String strInicio = inicio.getSelectedItem().toString();
+        if (strInicio.contains("Vaes Dothrak")) {
+            inicioA = (Cidade) network.getVertices()[0];
+        } else if (strInicio.contains("Lhazareen")) {
+            inicioA = (Cidade) network.getVertices()[1];
+        } else if (strInicio.contains("Qohor")) {
+            inicioA = (Cidade) network.getVertices()[2];
+        } else if (strInicio.contains("Pentos")) {
+            inicioA = (Cidade) network.getVertices()[3];
+        } else if (strInicio.contains("King")) {
+            inicioA = (Cidade) network.getVertices()[4];
+        } else if (strInicio.contains("Crossroads")) {
+            inicioA = (Cidade) network.getVertices()[5];
+        } else if (strInicio.contains("Winterfell")) {
+            inicioA = (Cidade) network.getVertices()[7];
+        } else if (strInicio.contains("Castle")) {
+            inicioA = (Cidade) network.getVertices()[8];
+        } else if (strInicio.contains("The")) {
+            inicioA = (Cidade) network.getVertices()[6];
+        } else {
+            inicioA = (Cidade) network.getVertices()[6];
+        }
+
+        String strFim = fim.getSelectedItem().toString();
+        if (strFim.contains("Vaes Dothrak")) {
+            fimA = (Cidade) network.getVertices()[0];
+        } else if (strFim.contains("Lhazareen")) {
+            fimA = (Cidade) network.getVertices()[1];
+        } else if (strFim.contains("Qohor")) {
+            fimA = (Cidade) network.getVertices()[2];
+        } else if (strFim.contains("Pentos")) {
+            fimA = (Cidade) network.getVertices()[3];
+        } else if (strFim.contains("King")) {
+            fimA = (Cidade) network.getVertices()[4];
+        } else if (strFim.contains("Cross")) {
+            fimA = (Cidade) network.getVertices()[5];
+        } else if (strFim.contains("Winterfell")) {
+            fimA = (Cidade) network.getVertices()[7];
+        } else if (strFim.contains("Castle Black")) {
+            fimA = (Cidade) network.getVertices()[8];
+        } else if (strFim.contains("The")) {
+            fimA = (Cidade) network.getVertices()[6];
+        } else {
+            fimA = (Cidade) network.getVertices()[6];
+        }
+        DadosTrajeto c = null;
+        try {
+            if (segundaCidade != null) {
+                inicioA.eliminarAdj(inicioA.getAdjIndex(segundaCidade));
+               
+                //inicioA.eliminarAdj(1);
             }
-           
-            LinkedQueue<Cidade> lq = mp.apresenta_caminho_curto(inicioA, fimA);
+            
+           LinkedQueue<Cidade> lq;
+            if(checkDur.isSelected()) {
+              lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.parseDouble(durMax.getText()));
+
+            } else {
+                lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.POSITIVE_INFINITY);
+            }
+            
             terceiraCidade = (Cidade) lq.first().getNext().getElement();
-            panel.sendShorthestPath(lq,fimA.getMinDistance());
+
+            LinkedQueue<Cidade> asad = Dijkstra.getCaminho_calculado(fimA);
+            String perdasEach = "";
+            while (!asad.isEmpty()) {
+                Cidade cada = asad.dequeue();
+                perdasEach = "=> " + Math.round(cada.getPerdasPorCombate()) + perdasEach;
+            }
+
+            panel.sendShorthestPath(lq, fimA.getMinDistance(), fimA.getTotaljornada(), perdasEach);
             panel.repaint();
-    
-        } catch (Exception eee){
-            status.setText("Caminho nao encontrado.."+eee);
-            
+            resultado = lq;
+            exercitoPerdas = Math.round(fimA.getMinDistance());
+
+        } catch (Exception eee) {
+            status.setText("Caminho nao encontrado.." + eee);
+
         }
     }
-     
-     private void atualizarGrafo3() throws ED_11_Parte1_Ex3.EmptyCollectionException{
-            
-DataManagementADT dataManagementADT = new DataManagement();
-network = new NetworkCidades();
 
-try {
-    network = dataManagementADT.obterNetwork("./Ficheiros/dadosT.csv");
-} catch (IOException ex) {
-}
-        setAdjacencias((Cidade) network.getVertices()[0]);
-setAdjacencias((Cidade) network.getVertices()[1]);
-setAdjacencias((Cidade) network.getVertices()[2]);
-setAdjacencias((Cidade) network.getVertices()[3]);
-setAdjacencias((Cidade) network.getVertices()[4]);
-setAdjacencias((Cidade) network.getVertices()[5]);
-setAdjacencias((Cidade) network.getVertices()[6]);
-setAdjacencias((Cidade) network.getVertices()[7]);
-setAdjacencias((Cidade) network.getVertices()[8]);
-Dijkstra mp = new Dijkstra();
-       
-    Cidade inicioA, fimA;
-    String strInicio = inicio.getSelectedItem().toString();
-    if (strInicio.contains("Vaes Dothrak")) {
-        inicioA = (Cidade) network.getVertices()[0];
-    } else if (strInicio.contains("Lhazareen")) {
-        inicioA = (Cidade) network.getVertices()[1];
-    } else if (strInicio.contains("Qohor")) {
-        inicioA = (Cidade) network.getVertices()[2];
-    } else if (strInicio.contains("Pentos")) {
-        inicioA = (Cidade) network.getVertices()[3];
-    } else if (strInicio.contains("King")) {
-        inicioA = (Cidade) network.getVertices()[4];
-    } else if (strInicio.contains("Crossroads")) {
-        inicioA = (Cidade) network.getVertices()[5];
-    } else if (strInicio.contains("Winterfell")) {
-        inicioA = (Cidade) network.getVertices()[7];
-    } else if (strInicio.contains("Castle")) {
-        inicioA = (Cidade) network.getVertices()[8];
-    } else if (strInicio.contains("The")) {
-        inicioA =(Cidade) network.getVertices()[6];
-    } else {
-        inicioA = (Cidade) network.getVertices()[6];
-    }
-    
-    String strFim = fim.getSelectedItem().toString();
-    if (strFim.contains("Vaes Dothrak")) {
-        fimA = (Cidade) network.getVertices()[0];
-    } else if (strFim.contains("Lhazareen")) {
-        fimA = (Cidade) network.getVertices()[1];
-    } else if (strFim.contains("Qohor")) {
-        fimA = (Cidade) network.getVertices()[2];
-    } else if (strFim.contains("Pentos")) {
-        fimA = (Cidade) network.getVertices()[3];
-    } else if (strFim.contains("King")) {
-        fimA = (Cidade) network.getVertices()[4];
-    } else if (strFim.contains("Cross")) {
-        fimA = (Cidade) network.getVertices()[5];
-    } else if (strFim.contains("Winterfell")) {
-        fimA = (Cidade) network.getVertices()[7];
-    } else if (strFim.contains("Castle Black")) {
-        fimA = (Cidade) network.getVertices()[8];
-    } else if (strFim.contains("The")) {
-        fimA = (Cidade) network.getVertices()[6];
-    } else {
-        fimA = (Cidade) network.getVertices()[6];
-    }
-        DadosTrajeto c = null ;
+    private void atualizarGrafo3() throws ED_11_Parte1_Ex3.EmptyCollectionException {
+
+        DataManagementADT dataManagementADT = new DataManagement();
+        network = new NetworkCidades();
+
         try {
-            if(eliminar2){
-            inicioA.eliminarAdj(inicioA.getAdjIndex(segundaCidade));
-            if(terceiraCidade!=null){
-            inicioA.eliminarAdj(inicioA.getAdjIndex(terceiraCidade));
+            network = dataManagementADT.obterNetwork("./Ficheiros/dadosT.csv");
+        } catch (IOException ex) {
+        }
+        setAdjacencias((Cidade) network.getVertices()[0]);
+        setAdjacencias((Cidade) network.getVertices()[1]);
+        setAdjacencias((Cidade) network.getVertices()[2]);
+        setAdjacencias((Cidade) network.getVertices()[3]);
+        setAdjacencias((Cidade) network.getVertices()[4]);
+        setAdjacencias((Cidade) network.getVertices()[5]);
+        setAdjacencias((Cidade) network.getVertices()[6]);
+        setAdjacencias((Cidade) network.getVertices()[7]);
+        setAdjacencias((Cidade) network.getVertices()[8]);
+        Dijkstra mp = new Dijkstra();
+
+        Cidade inicioA, fimA;
+        String strInicio = inicio.getSelectedItem().toString();
+        if (strInicio.contains("Vaes Dothrak")) {
+            inicioA = (Cidade) network.getVertices()[0];
+        } else if (strInicio.contains("Lhazareen")) {
+            inicioA = (Cidade) network.getVertices()[1];
+        } else if (strInicio.contains("Qohor")) {
+            inicioA = (Cidade) network.getVertices()[2];
+        } else if (strInicio.contains("Pentos")) {
+            inicioA = (Cidade) network.getVertices()[3];
+        } else if (strInicio.contains("King")) {
+            inicioA = (Cidade) network.getVertices()[4];
+        } else if (strInicio.contains("Crossroads")) {
+            inicioA = (Cidade) network.getVertices()[5];
+        } else if (strInicio.contains("Winterfell")) {
+            inicioA = (Cidade) network.getVertices()[7];
+        } else if (strInicio.contains("Castle")) {
+            inicioA = (Cidade) network.getVertices()[8];
+        } else if (strInicio.contains("The")) {
+            inicioA = (Cidade) network.getVertices()[6];
+        } else {
+            inicioA = (Cidade) network.getVertices()[6];
+        }
+
+        String strFim = fim.getSelectedItem().toString();
+        if (strFim.contains("Vaes Dothrak")) {
+            fimA = (Cidade) network.getVertices()[0];
+        } else if (strFim.contains("Lhazareen")) {
+            fimA = (Cidade) network.getVertices()[1];
+        } else if (strFim.contains("Qohor")) {
+            fimA = (Cidade) network.getVertices()[2];
+        } else if (strFim.contains("Pentos")) {
+            fimA = (Cidade) network.getVertices()[3];
+        } else if (strFim.contains("King")) {
+            fimA = (Cidade) network.getVertices()[4];
+        } else if (strFim.contains("Cross")) {
+            fimA = (Cidade) network.getVertices()[5];
+        } else if (strFim.contains("Winterfell")) {
+            fimA = (Cidade) network.getVertices()[7];
+        } else if (strFim.contains("Castle Black")) {
+            fimA = (Cidade) network.getVertices()[8];
+        } else if (strFim.contains("The")) {
+            fimA = (Cidade) network.getVertices()[6];
+        } else {
+            fimA = (Cidade) network.getVertices()[6];
+        }
+        DadosTrajeto c = null;
+        try {
+            if (segundaCidade != null) {
+                inicioA.eliminarAdj(inicioA.getAdjIndex(segundaCidade));
+                if (terceiraCidade != null) {
+                    inicioA.eliminarAdj((inicioA.getAdjIndex(terceiraCidade)));
+                }
             }
-            
-            //inicioA.eliminarAdj(1);
-            eliminar2=false;
+            LinkedQueue<Cidade> lq;
+            if(checkDur.isSelected()) {
+              lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.parseDouble(durMax.getText()));
+
+            } else {
+                lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.POSITIVE_INFINITY);
             }
-            LinkedQueue<Cidade> lq = mp.apresenta_caminho_curto(inicioA, fimA);
-            panel.sendShorthestPath(lq,fimA.getMinDistance());
+            LinkedQueue<Cidade> asad = Dijkstra.getCaminho_calculado(fimA);
+            String perdasEach = "";
+            while (!asad.isEmpty()) {
+                Cidade cada = asad.dequeue();
+                perdasEach = "=> " + Math.round(cada.getPerdasPorCombate()) + perdasEach;
+            }
+            panel.sendShorthestPath(lq, fimA.getMinDistance(), fimA.getTotaljornada(), perdasEach);
             panel.repaint();
-    
-        } catch (Exception eee){
+
+        } catch (Exception eee) {
             status.setText("Caminho nao encontrado..");
         }
     }
-    
-     private void resetGrafo() throws ED_11_Parte1_Ex3.EmptyCollectionException{
-           
-      DataManagementADT dataManagementADT = new DataManagement();
-network = new NetworkCidades();
 
-try {
-    network = dataManagementADT.obterNetwork("./Ficheiros/dadosT.csv");
-} catch (IOException ex) {
-}
-        setAdjacencias((Cidade) network.getVertices()[0]);
-setAdjacencias((Cidade) network.getVertices()[1]);
-setAdjacencias((Cidade) network.getVertices()[2]);
-setAdjacencias((Cidade) network.getVertices()[3]);
-setAdjacencias((Cidade) network.getVertices()[4]);
-setAdjacencias((Cidade) network.getVertices()[5]);
-setAdjacencias((Cidade) network.getVertices()[6]);
-setAdjacencias((Cidade) network.getVertices()[7]);
-setAdjacencias((Cidade) network.getVertices()[8]);
-Dijkstra mp = new Dijkstra();
-       
-    Cidade inicioA, fimA;
-    String strInicio = inicio.getSelectedItem().toString();
-    if (strInicio.contains("Vaes Dothrak")) {
-        inicioA = (Cidade) network.getVertices()[0];
-    } else if (strInicio.contains("Lhazareen")) {
-        inicioA = (Cidade) network.getVertices()[1];
-    } else if (strInicio.contains("Qohor")) {
-        inicioA = (Cidade) network.getVertices()[2];
-    } else if (strInicio.contains("Pentos")) {
-        inicioA = (Cidade) network.getVertices()[3];
-    } else if (strInicio.contains("King")) {
-        inicioA = (Cidade) network.getVertices()[4];
-    } else if (strInicio.contains("Crossroads")) {
-        inicioA = (Cidade) network.getVertices()[5];
-    } else if (strInicio.contains("Winterfell")) {
-        inicioA = (Cidade) network.getVertices()[7];
-    } else if (strInicio.contains("Castle")) {
-        inicioA = (Cidade) network.getVertices()[8];
-    } else if (strInicio.contains("The")) {
-        inicioA =(Cidade) network.getVertices()[6];
-    } else {
-        inicioA = (Cidade) network.getVertices()[6];
-    }
-    
-    String strFim = fim.getSelectedItem().toString();
-    if (strFim.contains("Vaes Dothrak")) {
-        fimA = (Cidade) network.getVertices()[0];
-    } else if (strFim.contains("Lhazareen")) {
-        fimA = (Cidade) network.getVertices()[1];
-    } else if (strFim.contains("Qohor")) {
-        fimA = (Cidade) network.getVertices()[2];
-    } else if (strFim.contains("Pentos")) {
-        fimA = (Cidade) network.getVertices()[3];
-    } else if (strFim.contains("King")) {
-        fimA = (Cidade) network.getVertices()[4];
-    } else if (strFim.contains("Cross")) {
-        fimA = (Cidade) network.getVertices()[5];
-    } else if (strFim.contains("Winterfell")) {
-        fimA = (Cidade) network.getVertices()[7];
-    } else if (strFim.contains("Castle Black")) {
-        fimA = (Cidade) network.getVertices()[8];
-    } else if (strFim.contains("The")) {
-        fimA = (Cidade) network.getVertices()[6];
-    } else {
-        fimA = (Cidade) network.getVertices()[6];
-    }
-        DadosTrajeto c = null ;
+    private void resetGrafo() throws ED_11_Parte1_Ex3.EmptyCollectionException {
+
+        DataManagementADT dataManagementADT = new DataManagement();
+        network = new NetworkCidades();
+
         try {
-           
-            LinkedQueue<String> cq = mp.apresenta_segundo_caminho_curto( (Cidade) network.getVertices()[0],  (Cidade) network.getVertices()[0]);
+            network = dataManagementADT.obterNetwork("./Ficheiros/dadosT.csv");
+        } catch (IOException ex) {
+        }
+        setAdjacencias((Cidade) network.getVertices()[0]);
+        setAdjacencias((Cidade) network.getVertices()[1]);
+        setAdjacencias((Cidade) network.getVertices()[2]);
+        setAdjacencias((Cidade) network.getVertices()[3]);
+        setAdjacencias((Cidade) network.getVertices()[4]);
+        setAdjacencias((Cidade) network.getVertices()[5]);
+        setAdjacencias((Cidade) network.getVertices()[6]);
+        setAdjacencias((Cidade) network.getVertices()[7]);
+        setAdjacencias((Cidade) network.getVertices()[8]);
+        Dijkstra mp = new Dijkstra();
+
+        Cidade inicioA, fimA;
+        String strInicio = inicio.getSelectedItem().toString();
+        if (strInicio.contains("Vaes Dothrak")) {
+            inicioA = (Cidade) network.getVertices()[0];
+        } else if (strInicio.contains("Lhazareen")) {
+            inicioA = (Cidade) network.getVertices()[1];
+        } else if (strInicio.contains("Qohor")) {
+            inicioA = (Cidade) network.getVertices()[2];
+        } else if (strInicio.contains("Pentos")) {
+            inicioA = (Cidade) network.getVertices()[3];
+        } else if (strInicio.contains("King")) {
+            inicioA = (Cidade) network.getVertices()[4];
+        } else if (strInicio.contains("Crossroads")) {
+            inicioA = (Cidade) network.getVertices()[5];
+        } else if (strInicio.contains("Winterfell")) {
+            inicioA = (Cidade) network.getVertices()[7];
+        } else if (strInicio.contains("Castle")) {
+            inicioA = (Cidade) network.getVertices()[8];
+        } else if (strInicio.contains("The")) {
+            inicioA = (Cidade) network.getVertices()[6];
+        } else {
+            inicioA = (Cidade) network.getVertices()[6];
+        }
+
+        String strFim = fim.getSelectedItem().toString();
+        if (strFim.contains("Vaes Dothrak")) {
+            fimA = (Cidade) network.getVertices()[0];
+        } else if (strFim.contains("Lhazareen")) {
+            fimA = (Cidade) network.getVertices()[1];
+        } else if (strFim.contains("Qohor")) {
+            fimA = (Cidade) network.getVertices()[2];
+        } else if (strFim.contains("Pentos")) {
+            fimA = (Cidade) network.getVertices()[3];
+        } else if (strFim.contains("King")) {
+            fimA = (Cidade) network.getVertices()[4];
+        } else if (strFim.contains("Cross")) {
+            fimA = (Cidade) network.getVertices()[5];
+        } else if (strFim.contains("Winterfell")) {
+            fimA = (Cidade) network.getVertices()[7];
+        } else if (strFim.contains("Castle Black")) {
+            fimA = (Cidade) network.getVertices()[8];
+        } else if (strFim.contains("The")) {
+            fimA = (Cidade) network.getVertices()[6];
+        } else {
+            fimA = (Cidade) network.getVertices()[6];
+        }
+        DadosTrajeto c = null;
+        try {
+
+            LinkedQueue<String> cq = mp.apresenta_segundo_caminho_curto((Cidade) network.getVertices()[0], (Cidade) network.getVertices()[0]);
             // System.out.println(c.getKms());
-            panel.sendShorthestPath(cq,fimA.getMinDistance());
+            panel.sendShorthestPath(cq, fimA.getMinDistance(), 30., "s");
             panel.repaint();
-    
-        } catch (Exception eee){
+
+        } catch (Exception eee) {
             status.setText("Caminho nao encontrado..");
         }
     }
-     
-    private void inicio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inicio1ActionPerformed
+
+    private void a3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_a3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_inicio1ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-this.setSize(new Dimension(665, 675));
-// TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-        a1.setSelected(false);
-        a2.setSelected(false);
-        try {
-            resetGrafo();
-        } catch (ED_11_Parte1_Ex3.EmptyCollectionException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
-          // TODO add your handling code here:
         // resetGrafo();
-        if(a1.isSelected()){
+        if (a1.isSelected()) {
             a1.setSelected(false);
+
+        }
+        if (a2.isSelected()) {
+            a2.setSelected(false);
+
         }
         try {
-            atualizarGrafo3();
+            atualizarGrafo();
         } catch (ED_11_Parte1_Ex3.EmptyCollectionException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jRadioButton3ActionPerformed
+    }//GEN-LAST:event_a3ActionPerformed
 
     private void a2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_a2ActionPerformed
         // TODO add your handling code here:
         // resetGrafo();
-        if(a1.isSelected()){
+        if (a1.isSelected()) {
             a1.setSelected(false);
+
+        }
+        if (a3.isSelected()) {
+            a3.setSelected(false);
+
         }
         try {
-            atualizarGrafo2();
+            atualizarGrafo3();
         } catch (ED_11_Parte1_Ex3.EmptyCollectionException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1074,19 +958,17 @@ this.setSize(new Dimension(665, 675));
             //  Dijkstra.setUltimaVisita("NONEV");
             //  resetGrafo();
             //  atualizarGrafo();
-            if(a2.isSelected()){
+            if (a2.isSelected()) {
                 a2.setSelected(false);
             }
-            atualizarGrafo();
+             if (a3.isSelected()) {
+                a3.setSelected(false);
+            }
+            atualizarGrafo2();
         } catch (ED_11_Parte1_Ex3.EmptyCollectionException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_a1ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        this.setSize(new Dimension(920, 675));
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
         // TODO add your handling code here:
@@ -1096,6 +978,15 @@ this.setSize(new Dimension(665, 675));
 
         try {
             atualizarGrafo();
+            if (a2.isSelected()) {
+                a2.setSelected(false);
+            }
+            if (a1.isSelected()) {
+                a1.setSelected(false);
+            }
+
+            a3.setSelected(true);
+
         } catch (ED_11_Parte1_Ex3.EmptyCollectionException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1105,26 +996,117 @@ this.setSize(new Dimension(665, 675));
 
     }//GEN-LAST:event_inicioActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
-    public void setAdjacencias(Cidade cidade) throws ED_11_Parte1_Ex3.EmptyCollectionException{
-        
-       
-        
-        for (int i = 0; i < network.getVertices().length; i++) {
-           if(network.getAdjMatrix()[network.getIndex(cidade)][i]){
-               for (int j = 0; j <= network.ajdListWeight[network.getIndex(cidade)][i].size(); j++) {
-                   DadosTrajeto dT = (DadosTrajeto) network.ajdListWeight[network.getIndex(cidade)][i].removeMin();
-            
-                   cidade.adicionar_trajeto(dT.getCidadeDestino(), dT.getKms(), dT.getDur(), dT.getCusto());
-               
-               }
-               
-           }
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        boolean estado_Conquista = false;
+        if (jogador != null) {
+
+            if (resultado != null) {
+                Object[] options = {"Sim", "Não"};
+
+                Cidade cidadeConquista = (Cidade) resultado.getRear().getElement();
+                Cidade[] cidades = new Cidade[network.getVertices().length];
+                String cd = "";
+                int index = 0;
+                while (cidadeConquista != null) {
+                    cd = "  " + cidadeConquista.getNome() + cd;
+                    cidades[index] = cidadeConquista;
+                    cidadeConquista = cidadeConquista.getPrevious();
+                    index++;
+                }
+
+                if (JOptionPane.showOptionDialog(null,
+                        "Conquistar Cidades:  " + cd,
+                        "Registar", JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, options, options[0])
+                        == JOptionPane.YES_OPTION) {
+
+                    if (jogador.getExercito() >= exercitoPerdas) {
+                        //conquistar cidades
+                        for (int i = 0; i < index; i++) {
+                            jogador.conquistarCidade(cidades[i]);
+                            System.out.println("Conquistou cidade " + cidades[i].getNome());
+                           if(getItem(cidades[i].getNome())==-1){
+                            inicio.addItem(cidades[i].getNome());
+                            fim.removeItem(cidades[i].getNome());
+                            estado_Conquista = true;
+                            }
+                            
+                            
+                        }
+                        jogador.efetuarPerdaExercito((int) Math.round(exercitoPerdas));
+                        exercitoJ.setText(String.valueOf(jogador.getExercito() + ""));
+                        if(!estado_Conquista){
+                             JOptionPane.showMessageDialog(null, "Estas Cidades ja estão conquistadas !!!");
+                        }else{
+                        JOptionPane.showMessageDialog(null, "Conquistou as Cidades !!!");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Não tem exercito suficiente.");
+                    }
+
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Introduza a cidade a conquistar.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Primeiro crie um jogador.");
         }
-     
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        DataManagementADT dataManagementADT = new DataManagement();
+        network = new NetworkCidades();
+
+        try {
+            network = dataManagementADT.obterNetwork("./Ficheiros/dadosT.csv");
+        } catch (IOException ex) {
+        }
+        Cidade cidade = (Cidade) network.getVertices()[network.getIndex(new Cidade(cidadeJ.getSelectedItem().toString(), 0))];
+
+        try {
+            UnorderedListADT<Cidade> cidadesConquistadas = new ArrayUnorderedList<>();
+            cidadesConquistadas.addToFront(cidade);
+            jogador = new Jogador(nomeJ.getText(), Integer.valueOf(exercitoJ.getText()), cidadesConquistadas);
+            inicio.removeAllItems();
+            inicio.addItem(cidade.getNome());
+            fim.removeItem(cidade.getNome());
+            JOptionPane.showMessageDialog(null, "Jogador criado.");
+            nomeJ.setEnabled((false));
+            exercitoJ.setEnabled(false);
+            cidadeJ.setEnabled(false);
+            jButton6.setEnabled(false);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Introduza um numero inteiro para o exercito.");
+        }
+
+
+    }//GEN-LAST:event_jButton6ActionPerformed
+    public void setAdjacencias(Cidade cidade) throws ED_11_Parte1_Ex3.EmptyCollectionException {
+
+        for (int i = 0; i < network.getVertices().length; i++) {
+            if (network.getAdjMatrix()[network.getIndex(cidade)][i]) {
+                for (int j = 0; j <= network.ajdListWeight[network.getIndex(cidade)][i].size(); j++) {
+                    DadosTrajeto dT = (DadosTrajeto) network.ajdListWeight[network.getIndex(cidade)][i].removeMin();
+
+                    cidade.add_DadosTrajeto(dT.getCidadeDestino(), dT.getKms(), dT.getDur(), dT.getCusto());
+
+                }
+
+            }
+        }
+
     }
+    public int getItem(String cidade){
+        for(int i = 0 ; i < inicio.getItemCount();i++){
+            if(inicio.getItemAt(i).compareTo(cidade)==0){
+                return i;
+            }
+        }
+        return -1;
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -1163,25 +1145,23 @@ this.setSize(new Dimension(665, 675));
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton a1;
     private javax.swing.JRadioButton a2;
+    private javax.swing.JRadioButton a3;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.JCheckBox checkDur;
+    private javax.swing.JComboBox<String> cidadeJ;
+    private javax.swing.JTextField durMax;
     private javax.swing.JFormattedTextField exercitoJ;
     private javax.swing.JComboBox<String> fim;
     private javax.swing.JComboBox<String> inicio;
-    private javax.swing.JComboBox<String> inicio1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton9;
+    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JCheckBox jCheckBox3;
+    private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
@@ -1191,24 +1171,14 @@ this.setSize(new Dimension(665, 675));
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel jLabel9s;
-    private javax.swing.JLabel jLabel9s1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField nomeJ;
     private javax.swing.JPanel panelMain;
     private javax.swing.JLabel status;

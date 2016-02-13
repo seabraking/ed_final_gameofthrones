@@ -21,7 +21,36 @@ public class Cidade implements Comparable<Cidade> {
     private double minDuracao = Double.POSITIVE_INFINITY;
     private int num_cidades;
     private Cidade previous;
+private double totaljornada = 0.;
+    private double custoMaximoemTermosUnidadeMilitar = Double.POSITIVE_INFINITY;
+    private double perdasPorCombate;
 
+    public double getTotaljornada() {
+        return totaljornada;
+    }
+
+    public void setTotaljornada(double totaljornada) {
+        this.totaljornada = totaljornada;
+    }
+
+    public double getCustoMaximoemTermosUnidadeMilitar() {
+        return custoMaximoemTermosUnidadeMilitar;
+    }
+
+    public void setCustoMaximoemTermosUnidadeMilitar(double custoMaximoemTermosUnidadeMilitar) {
+        this.custoMaximoemTermosUnidadeMilitar = custoMaximoemTermosUnidadeMilitar;
+    }
+
+    public double getPerdasPorCombate() {
+        return perdasPorCombate;
+    }
+
+    public void setPerdasPorCombate(double perdasPorCombate) {
+        this.perdasPorCombate = perdasPorCombate;
+    }
+    
+    
+    
     public Cidade(String nome, int defesa) {
         this.nome = nome;
         this.defesa = defesa;
@@ -90,22 +119,24 @@ public class Cidade implements Comparable<Cidade> {
     }
 
     private DadosTrajeto[] expandCapacity() {
-        DadosTrajeto[] novo = new DadosTrajeto[this.ligacoes.length + DEFAULT_CAPACITY];
-        System.arraycopy(novo, this.num_cidades, this.ligacoes, 0, this.num_cidades);
+        DadosTrajeto[] novo = new DadosTrajeto[ligacoes.length*2];
+        for (int i = 0; i < ligacoes.length; i++) {
+            novo[i] = ligacoes[i];
+        }
         return novo;
     }
 
-    public void adicionar_trajeto(Cidade cidadefinal, double distancia, double duracao, double custo) {
+    public void add_DadosTrajeto(Cidade cfinal, double km, double dur, double custo) {
         if (isEmpty()) {
-            this.ligacoes[0] = new DadosTrajeto(distancia, duracao, custo, cidadefinal);
-            this.num_cidades++;
-        } else if (this.num_cidades == this.ligacoes.length) {
-            this.ligacoes = expandCapacity();
-            this.ligacoes[this.num_cidades] = new DadosTrajeto(distancia, duracao, custo, cidadefinal);
-            this.num_cidades++;
+            ligacoes[0] = new DadosTrajeto(km, dur, custo, cfinal);
+            num_cidades++;
+        } else if (num_cidades == ligacoes.length) {
+            ligacoes = expandCapacity();
+            ligacoes[num_cidades] = new DadosTrajeto(km, dur, custo, cfinal);
+            num_cidades++;
         } else {
-            this.ligacoes[this.num_cidades] = new DadosTrajeto(distancia, duracao, custo, cidadefinal);
-            this.num_cidades++;
+            ligacoes[num_cidades] = new DadosTrajeto(km, dur, custo, cfinal);
+            num_cidades++;
         }
     }
 

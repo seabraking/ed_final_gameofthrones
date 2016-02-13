@@ -2,7 +2,7 @@ package Classes;
 
 import ED_12_Parte1_Ex2.EmptyCollectionException;
 import ED_12_Parte1_Ex2.LinkedQueue;
-import java.util.LinkedList;
+
 
 
 
@@ -41,11 +41,12 @@ private static int lastAdjVisited = 4;
                         
                     double perdaCaminho = e.getCusto()*e.getKms();
                     double weight = 100*Math.pow((e.getCidadeDestino().getDefesa()/10),1.8);
-                    
+                    double tot = u.getTotaljornada() +e.getDur();
                     double distanceThroughU = u.getMinDistance() + weight + perdaCaminho;
-                    if (distanceThroughU < v.getMinDistance()) {
+                    if (distanceThroughU < v.getMinDistance() + weight + perdaCaminho) {
                         //cidadesQueue.remove(v);
-                            
+                        v.setTotaljornada(tot);
+                        v.setPerdasPorCombate(weight + perdaCaminho);
                         v.setMinDistance(distanceThroughU);
                         v.setPrevious(u);
                         cidadesQueue.enqueue(v);
@@ -197,11 +198,11 @@ private static int lastAdjVisited = 4;
     }
 
     
-    public LinkedQueue apresenta_caminho_curto(T cidade1, T cidade2) throws EmptyCollectionException {
+    public LinkedQueue apresenta_caminho_curto(T cidade1, T cidade2,Double tot) throws EmptyCollectionException {
         Cidade ini = (Cidade) cidade1;
         Cidade fim = (Cidade) cidade2;
         CaminhoMaisCurto(ini,25000);
-        if (fim.getMinDistance() != Double.POSITIVE_INFINITY) {
+        if (fim.getMinDistance() != Double.POSITIVE_INFINITY && fim.getTotaljornada()<=tot) {
             System.out.println("Distancia de " + ini + "para " + fim + ": " + fim.getMinDistance());
            
             LinkedQueue<Cidade> path = getCaminho_calculado(fim);

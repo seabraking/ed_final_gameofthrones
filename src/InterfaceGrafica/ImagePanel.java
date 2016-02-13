@@ -47,7 +47,9 @@ class ImagePanel extends JPanel {
   private String cityName="";
   private double exercito=0.;
   private boolean existsPath=false;
-  
+  private boolean criterioNotFound= true;
+  private double duracao;
+  private String perdas;
   
   public ImagePanel(String img) {
     this(new ImageIcon(img).getImage());
@@ -65,9 +67,10 @@ class ImagePanel extends JPanel {
 
   }
   
-  public void sendShorthestPath(LinkedQueue paths,double custo){
+  public void sendShorthestPath(LinkedQueue paths,double custo, Double duracao,String perdas){
       int count = 0;
     //  dj.setUltimaVisita("NONE");
+    if(path.size()!=1){
       while(!paths.isEmpty()){
           String c = (String) paths.dequeue().toString();
           this.path.enqueue(c);
@@ -80,8 +83,12 @@ class ImagePanel extends JPanel {
 
       }
       exercito=custo;
+      this.duracao =duracao;
       pathList = new ArrayUnorderedList<>();
-   
+    } else {
+        criterioNotFound = true;
+    }
+    this.perdas = perdas;
   }
 
   public void paintComponent(Graphics g) {
@@ -91,6 +98,7 @@ class ImagePanel extends JPanel {
      g.setFont(new Font("default", Font.BOLD, 12));
     g2.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
+    
     if(!path.isEmpty()){
         g2.setColor(Color.MAGENTA);
         g2.drawString("Shortest Path", 300, 20);
@@ -109,22 +117,27 @@ class ImagePanel extends JPanel {
                 Logger.getLogger(ImagePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
            
-        } 
+        }
+        if(pathList.size()>1){
         
         
         g2.drawString(s1, 150, 35);
         g2.setColor(Color.RED);
-        
-        g2.drawString("Perdas: " + Math.round(exercito), 190, 45);
+        g2.drawString("Perdas por batalha: " +perdas, 190, 50);
+        g2.drawString("Perdas: " + Math.round(exercito), 190, 60);
+         g2.drawString("Duraçao Jornada: " + Math.round(duracao) + " dias.", 190, 70);
          g2.setColor(Color.BLACK);
-         
+        
+        }
     } else {
-        g2.drawString("", 300, 20);
+        g2.setColor(Color.blue);
+        g2.drawString("Estado: Caminho nao encontrado, com os criterios desejados!", 200, 20);
     }
     
 
     ArrayIterator<String> ai = pathList.iterator();
       int found = 0;
+
     while(ai.hasNext()){
          String x1 ="";
         String x = ai.next();
@@ -132,9 +145,14 @@ class ImagePanel extends JPanel {
             found += 1;
         }
         if(x.contains("Castle")){
-            found += 1;
+            
+                found += 1;
+            
         }
+       
     }
+   
+    
     if(found==2){
         g2.setColor(Color.red);
     } else {
@@ -208,7 +226,7 @@ class ImagePanel extends JPanel {
     //Winterfell - CrossRoads
     ai = pathList.iterator();
      found = 0;
-    while(ai.hasNext()){
+    if(ai.hasNext()){
          String x1 ="";
         String x = ai.next();
         if(x.contains("Winterfell")){

@@ -18,16 +18,19 @@ public class LinkedQueue<T> implements QueueADT<T>{
    
     LinearNode<T> front;
     LinearNode<T> rear;
-    private int count;
+    private int count=0;
 
     public LinkedQueue(LinearNode<T> t) {
         this.front = t;
         this.rear = t;
+        
         count++;
     }
 
     public LinkedQueue() {
-   
+         this.front = null;
+        this.rear = null;
+        
     }
 
     @Override
@@ -136,5 +139,7 @@ public class LinkedQueue<T> implements QueueADT<T>{
         }
     }
     
-    
+    public LinearNode<T> getRear(){
+        return rear;
+    }
 }
