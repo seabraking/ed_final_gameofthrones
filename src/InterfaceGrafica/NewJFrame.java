@@ -59,11 +59,6 @@ public class NewJFrame extends javax.swing.JFrame {
     Cidade terceiraCidade = null;
     LinkedQueue<Cidade> resultado = null;
     double exercitoPerdas = 0;
-    UnorderedListADT<String> cidadesConquistadas = new ArrayUnorderedList<>();
-
-    /**
-     * Creates new form NewJFrame
-     */;
 
     /**
      * Creates new form NewJFrame
@@ -535,10 +530,10 @@ public class NewJFrame extends javax.swing.JFrame {
 
                 cidadeJ.addItem(cidade.getNome());
                 fim.addItem(cidade.getNome());
-                
+
             }
             jTable1.setModel(modelo);
-           
+       
 
 
         } catch (IOException ex) {
@@ -837,7 +832,6 @@ public class NewJFrame extends javax.swing.JFrame {
                 Cidade cada = asad.dequeue();
                 perdasEach = "=> " + Math.round(cada.getPerdasPorCombate()) + perdasEach;
             }
-            resultado = lq;
             panel.sendShorthestPath(lq, fimA.getMinDistance(), fimA.getTotaljornada(), perdasEach);
             panel.repaint();
 
@@ -1043,8 +1037,6 @@ public class NewJFrame extends javax.swing.JFrame {
                         }
                         jogador.efetuarPerdaExercito((int) Math.round(exercitoPerdas));
                         exercitoJ.setText(String.valueOf(jogador.getExercito() + ""));
-                        panel.sendJogadorData(jogador);
-                        panel.repaint();
                         if(!estado_Conquista){
                              JOptionPane.showMessageDialog(null, "Estas Cidades ja estão conquistadas !!!");
                         }else{
@@ -1086,8 +1078,7 @@ public class NewJFrame extends javax.swing.JFrame {
             exercitoJ.setEnabled(false);
             cidadeJ.setEnabled(false);
             jButton6.setEnabled(false);
-                        panel.sendJogadorData(jogador);
-                        panel.repaint();
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Introduza um numero inteiro para o exercito.");
         }
