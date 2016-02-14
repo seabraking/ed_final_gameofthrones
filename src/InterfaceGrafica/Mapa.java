@@ -39,7 +39,7 @@ import javax.swing.JTextField;
  *
  * @author Vitor
  */
-class ImagePanel extends JPanel {
+class Mapa extends JPanel {
 
   private Image img;
   LinkedQueue path = new LinkedQueue();
@@ -55,11 +55,11 @@ class ImagePanel extends JPanel {
   private Jogador jogador;
   private boolean jogadorSet=false;
   String strCidadesConquistadas= "";
-  public ImagePanel(String img) {
+  public Mapa(String img) {
     this(new ImageIcon(img).getImage());
   }
 
-  public ImagePanel(Image img) {
+  public Mapa(Image img) {
     this.img = img;
     Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
     setPreferredSize(size);
@@ -84,6 +84,7 @@ class ImagePanel extends JPanel {
               Dijkstra.setUltimaVisita(c);
               System.out.println("Last: " +c);
           }
+          
 
       }
       exercito=custo;
@@ -118,7 +119,7 @@ class ImagePanel extends JPanel {
          
                 
             } catch (EmptyCollectionException ex) {
-                Logger.getLogger(ImagePanel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Mapa.class.getName()).log(Level.SEVERE, null, ex);
             }
            
         }

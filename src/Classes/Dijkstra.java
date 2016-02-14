@@ -202,7 +202,7 @@ private static int lastAdjVisited = 4;
         Cidade ini = (Cidade) cidade1;
         Cidade fim = (Cidade) cidade2;
         CaminhoMaisCurto(ini,25000);
-        if (fim.getMinDistance() != Double.POSITIVE_INFINITY && fim.getTotaljornada()<=totMax && fim.getMinDistance()<=exercitoMax && (getCaminho_calculado(fim).size())-1<numeroMaxCombates) {
+        if (fim.getMinDistance() != Double.POSITIVE_INFINITY && fim.getTotaljornada()<=totMax && fim.getMinDistance()<=exercitoMax && (getCaminho_calculado(fim).size())-1<=numeroMaxCombates) {
             System.out.println("Distancia de " + ini + "para " + fim + ": " + fim.getMinDistance());
            
             LinkedQueue<Cidade> path = getCaminho_calculado(fim);

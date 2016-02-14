@@ -9,7 +9,7 @@ import ED_11_Parte1_Ex3.ElementNotFoundException;
 import ED_11_Parte1_Ex3.EmptyCollectionException;
 import ED_12_Parte1_Ex2.ArrayIterator;
 import Ficheiros.DataManagement;
-import InterfaceGrafica.NewJFrame;
+import InterfaceGrafica.Demo;
 import Interfaces.DataManagementADT;
 import java.io.IOException;
 
@@ -24,7 +24,7 @@ static NetworkCidades network;
      */
     public static void main(String[] args) throws IOException, ElementNotFoundException, EmptyCollectionException, ED_12_Parte1_Ex2.EmptyCollectionException {
 
-    NewJFrame frame = new NewJFrame();
+    Demo frame = new Demo();
     frame.setVisible(true);
     frame.setLocationRelativeTo(null);
 //

@@ -37,21 +37,23 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Vitor
  */
-public class NewJFrame extends javax.swing.JFrame {
+public class Demo extends javax.swing.JFrame {
 
     NetworkADT networkADT;
-    ImagePanel panel = new ImagePanel(new ImageIcon("map.png").getImage());
+    Mapa panel = new Mapa(new ImageIcon("map.png").getImage());
     NetworkCidades network;
     Jogador jogador = null;
 
@@ -63,12 +65,13 @@ public class NewJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form NewJFrame
-     */;
+     */
+    ;
 
     /**
      * Creates new form NewJFrame
      */
-    public NewJFrame() {
+    public Demo() {
 
         this.setPreferredSize(new Dimension(675, 750));
         this.setTitle("Game of <T>hrones - AI ");
@@ -115,14 +118,14 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        custoMax = new javax.swing.JTextField();
+        custoMaxCombate = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        numCombatesMax = new javax.swing.JTextField();
         checkDur = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
+        checkCusto = new javax.swing.JCheckBox();
+        checkNumeroMaxCombates = new javax.swing.JCheckBox();
+        checkCustoMaximoCombate = new javax.swing.JCheckBox();
         status = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         a1 = new javax.swing.JRadioButton();
@@ -232,12 +235,12 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Custo Máximo (p/combate)");
 
-        jTextField4.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+        custoMax.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
 
-        jTextField5.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        custoMaxCombate.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+        custoMaxCombate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                custoMaxCombateActionPerformed(evt);
             }
         });
 
@@ -246,12 +249,32 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel8.setText("Numero Maximo de Combates");
 
         checkDur.setBackground(java.awt.SystemColor.activeCaption);
+        checkDur.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkDurActionPerformed(evt);
+            }
+        });
 
-        jCheckBox2.setBackground(java.awt.SystemColor.activeCaption);
+        checkCusto.setBackground(java.awt.SystemColor.activeCaption);
+        checkCusto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkCustoActionPerformed(evt);
+            }
+        });
 
-        jCheckBox3.setBackground(java.awt.SystemColor.activeCaption);
+        checkNumeroMaxCombates.setBackground(java.awt.SystemColor.activeCaption);
+        checkNumeroMaxCombates.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkNumeroMaxCombatesActionPerformed(evt);
+            }
+        });
 
-        jCheckBox4.setBackground(java.awt.SystemColor.activeCaption);
+        checkCustoMaximoCombate.setBackground(java.awt.SystemColor.activeCaption);
+        checkCustoMaximoCombate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkCustoMaximoCombateActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -265,25 +288,25 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(durMax, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                    .addComponent(jTextField4))
+                    .addComponent(custoMax))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(checkDur, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(checkCusto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(custoMaxCombate, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(checkCustoMaximoCombate, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(numCombatesMax, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(checkNumeroMaxCombates, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(22, 22, 22))
         );
         jPanel2Layout.setVerticalGroup(
@@ -294,23 +317,23 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(checkDur, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(checkCusto, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(checkCustoMaximoCombate, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel5)
                                 .addComponent(jLabel7)
                                 .addComponent(durMax, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(custoMaxCombate, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(checkNumeroMaxCombates, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel6)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(custoMax, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel8)
-                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(numCombatesMax, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(34, 34, 34))
         );
 
@@ -350,6 +373,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel10.setText("Nome do Jogador");
 
         nomeJ.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        nomeJ.setText("ESTGF PLAYER");
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel12.setText("Exercito");
@@ -359,6 +383,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
         cidadeJ.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
+        exercitoJ.setText("100000");
         exercitoJ.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -535,11 +560,9 @@ public class NewJFrame extends javax.swing.JFrame {
 
                 cidadeJ.addItem(cidade.getNome());
                 fim.addItem(cidade.getNome());
-                
+
             }
             jTable1.setModel(modelo);
-           
-
 
         } catch (IOException ex) {
             try {
@@ -624,24 +647,47 @@ public class NewJFrame extends javax.swing.JFrame {
         try {
 
             LinkedQueue<Cidade> lq;
-            if(checkDur.isSelected()) {
-              lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.parseDouble(durMax.getText()));
+            if (checkDur.isSelected()) {
+                lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.parseDouble(durMax.getText()), Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+
+            } else if (checkCusto.isSelected()) {
+                lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.POSITIVE_INFINITY,Double.parseDouble(custoMax.getText()), Double.POSITIVE_INFINITY);
+
+            } else if (checkNumeroMaxCombates.isSelected()) {
+                lq = mp.apresenta_caminho_curto(inicioA, fimA,Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,Double.parseDouble(numCombatesMax.getText()));
 
             } else {
-                lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.POSITIVE_INFINITY);
+                lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
             }
             segundaCidade = lq.first().getNext().getElement();
 
             LinkedQueue<Cidade> asad = Dijkstra.getCaminho_calculado(fimA);
             String perdasEach = "";
+            int maior = -1;
             while (!asad.isEmpty()) {
                 Cidade cada = asad.dequeue();
                 perdasEach = "=> " + Math.round(cada.getPerdasPorCombate()) + perdasEach;
+                if (cada.getPerdasPorCombate() > maior) {
+                    maior = (int) Math.round(cada.getPerdasPorCombate());
+                }
             }
-            panel.sendShorthestPath(lq, fimA.getMinDistance(), fimA.getTotaljornada(), perdasEach);
-            panel.repaint();
-            resultado = lq;
-            exercitoPerdas = Math.round(fimA.getMinDistance());
+
+            if (checkCustoMaximoCombate.isSelected() && maior > Double.parseDouble(custoMaxCombate.getText())) {
+                panel.sendShorthestPath(new LinkedQueue(), fimA.getMinDistance(), fimA.getTotaljornada(), perdasEach);
+                panel.repaint();
+                resultado = lq;
+                exercitoPerdas = Math.round(fimA.getMinDistance());
+            } else if (checkCustoMaximoCombate.isSelected()) {
+                panel.sendShorthestPath(lq, fimA.getMinDistance(), fimA.getTotaljornada(), perdasEach);
+                panel.repaint();
+                resultado = lq;
+                exercitoPerdas = Math.round(fimA.getMinDistance());
+            } else {
+                panel.sendShorthestPath(lq, fimA.getMinDistance(), fimA.getTotaljornada(), perdasEach);
+                panel.repaint();
+                resultado = lq;
+                exercitoPerdas = Math.round(fimA.getMinDistance());
+            }
 
         } catch (Exception eee) {
             status.setText("Caminho nao encontrado..");
@@ -718,31 +764,53 @@ public class NewJFrame extends javax.swing.JFrame {
         try {
             if (segundaCidade != null) {
                 inicioA.eliminarAdj(inicioA.getAdjIndex(segundaCidade));
-               
+
                 //inicioA.eliminarAdj(1);
             }
-            
-           LinkedQueue<Cidade> lq;
-            if(checkDur.isSelected()) {
-              lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.parseDouble(durMax.getText()));
+
+            LinkedQueue<Cidade> lq;
+            if (checkDur.isSelected()) {
+                lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.parseDouble(durMax.getText()), Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+
+            } else if (checkCusto.isSelected()) {
+                lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.POSITIVE_INFINITY,Double.parseDouble(custoMax.getText()), Double.POSITIVE_INFINITY);
+
+            } else if (checkNumeroMaxCombates.isSelected()) {
+                lq = mp.apresenta_caminho_curto(inicioA, fimA,Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,Double.parseDouble(numCombatesMax.getText()));
 
             } else {
-                lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.POSITIVE_INFINITY);
+                lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
             }
-            
+
             terceiraCidade = (Cidade) lq.first().getNext().getElement();
 
             LinkedQueue<Cidade> asad = Dijkstra.getCaminho_calculado(fimA);
             String perdasEach = "";
+            int maior = -1;
             while (!asad.isEmpty()) {
                 Cidade cada = asad.dequeue();
                 perdasEach = "=> " + Math.round(cada.getPerdasPorCombate()) + perdasEach;
+                if (cada.getPerdasPorCombate() > maior) {
+                    maior = (int) Math.round(cada.getPerdasPorCombate());
+                }
             }
 
-            panel.sendShorthestPath(lq, fimA.getMinDistance(), fimA.getTotaljornada(), perdasEach);
-            panel.repaint();
-            resultado = lq;
-            exercitoPerdas = Math.round(fimA.getMinDistance());
+            if (checkCustoMaximoCombate.isSelected() && maior > Double.parseDouble(custoMaxCombate.getText())) {
+                panel.sendShorthestPath(new LinkedQueue(), fimA.getMinDistance(), fimA.getTotaljornada(), perdasEach);
+                panel.repaint();
+                resultado = lq;
+                exercitoPerdas = Math.round(fimA.getMinDistance());
+            } else if (checkCustoMaximoCombate.isSelected()) {
+                panel.sendShorthestPath(lq, fimA.getMinDistance(), fimA.getTotaljornada(), perdasEach);
+                panel.repaint();
+                resultado = lq;
+                exercitoPerdas = Math.round(fimA.getMinDistance());
+            } else {
+                panel.sendShorthestPath(lq, fimA.getMinDistance(), fimA.getTotaljornada(), perdasEach);
+                panel.repaint();
+                resultado = lq;
+                exercitoPerdas = Math.round(fimA.getMinDistance());
+            }
 
         } catch (Exception eee) {
             status.setText("Caminho nao encontrado.." + eee);
@@ -825,22 +893,46 @@ public class NewJFrame extends javax.swing.JFrame {
                 }
             }
             LinkedQueue<Cidade> lq;
-            if(checkDur.isSelected()) {
-              lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.parseDouble(durMax.getText()));
+            if (checkDur.isSelected()) {
+                lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.parseDouble(durMax.getText()), Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+
+            } else if (checkCusto.isSelected()) {
+                lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.POSITIVE_INFINITY,Double.parseDouble(custoMax.getText()), Double.POSITIVE_INFINITY);
+
+            } else if (checkNumeroMaxCombates.isSelected()) {
+                lq = mp.apresenta_caminho_curto(inicioA, fimA,Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,Double.parseDouble(numCombatesMax.getText()));
 
             } else {
-                lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.POSITIVE_INFINITY);
+                lq = mp.apresenta_caminho_curto(inicioA, fimA, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
             }
+            
             LinkedQueue<Cidade> asad = Dijkstra.getCaminho_calculado(fimA);
             String perdasEach = "";
+            int maior = -1;
             while (!asad.isEmpty()) {
                 Cidade cada = asad.dequeue();
                 perdasEach = "=> " + Math.round(cada.getPerdasPorCombate()) + perdasEach;
+                if (cada.getPerdasPorCombate() > maior) {
+                    maior = (int) Math.round(cada.getPerdasPorCombate());
+                }
             }
-            resultado = lq;
-            panel.sendShorthestPath(lq, fimA.getMinDistance(), fimA.getTotaljornada(), perdasEach);
-            panel.repaint();
 
+            if (checkCustoMaximoCombate.isSelected() && maior > Double.parseDouble(custoMaxCombate.getText())) {
+                panel.sendShorthestPath(new LinkedQueue(), fimA.getMinDistance(), fimA.getTotaljornada(), perdasEach);
+                panel.repaint();
+                resultado = lq;
+                exercitoPerdas = Math.round(fimA.getMinDistance());
+            } else if (checkCustoMaximoCombate.isSelected()) {
+                panel.sendShorthestPath(lq, fimA.getMinDistance(), fimA.getTotaljornada(), perdasEach);
+                panel.repaint();
+                resultado = lq;
+                exercitoPerdas = Math.round(fimA.getMinDistance());
+            } else {
+                panel.sendShorthestPath(lq, fimA.getMinDistance(), fimA.getTotaljornada(), perdasEach);
+                panel.repaint();
+                resultado = lq;
+                exercitoPerdas = Math.round(fimA.getMinDistance());
+            }
         } catch (Exception eee) {
             status.setText("Caminho nao encontrado..");
         }
@@ -939,7 +1031,7 @@ public class NewJFrame extends javax.swing.JFrame {
         try {
             atualizarGrafo();
         } catch (ED_11_Parte1_Ex3.EmptyCollectionException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Demo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_a3ActionPerformed
 
@@ -957,7 +1049,7 @@ public class NewJFrame extends javax.swing.JFrame {
         try {
             atualizarGrafo3();
         } catch (ED_11_Parte1_Ex3.EmptyCollectionException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Demo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_a2ActionPerformed
 
@@ -969,18 +1061,18 @@ public class NewJFrame extends javax.swing.JFrame {
             if (a2.isSelected()) {
                 a2.setSelected(false);
             }
-             if (a3.isSelected()) {
+            if (a3.isSelected()) {
                 a3.setSelected(false);
             }
             atualizarGrafo2();
         } catch (ED_11_Parte1_Ex3.EmptyCollectionException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Demo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_a1ActionPerformed
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void custoMaxCombateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_custoMaxCombateActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_custoMaxCombateActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
@@ -996,7 +1088,7 @@ public class NewJFrame extends javax.swing.JFrame {
             a3.setSelected(true);
 
         } catch (ED_11_Parte1_Ex3.EmptyCollectionException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Demo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -1033,22 +1125,21 @@ public class NewJFrame extends javax.swing.JFrame {
                         for (int i = 0; i < index; i++) {
                             jogador.conquistarCidade(cidades[i]);
                             System.out.println("Conquistou cidade " + cidades[i].getNome());
-                           if(getItem(cidades[i].getNome())==-1){
-                            inicio.addItem(cidades[i].getNome());
-                            fim.removeItem(cidades[i].getNome());
-                            estado_Conquista = true;
+                            if (getItem(cidades[i].getNome()) == -1) {
+                                inicio.addItem(cidades[i].getNome());
+                                fim.removeItem(cidades[i].getNome());
+                                estado_Conquista = true;
                             }
-                            
-                            
+
                         }
                         jogador.efetuarPerdaExercito((int) Math.round(exercitoPerdas));
                         exercitoJ.setText(String.valueOf(jogador.getExercito() + ""));
                         panel.sendJogadorData(jogador);
                         panel.repaint();
-                        if(!estado_Conquista){
-                             JOptionPane.showMessageDialog(null, "Estas Cidades ja estão conquistadas !!!");
-                        }else{
-                        JOptionPane.showMessageDialog(null, "Conquistou as Cidades !!!");
+                        if (!estado_Conquista) {
+                            JOptionPane.showMessageDialog(null, "Estas Cidades ja estão conquistadas !!!");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Conquistou as Cidades !!!");
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Não tem exercito suficiente.");
@@ -1086,14 +1177,39 @@ public class NewJFrame extends javax.swing.JFrame {
             exercitoJ.setEnabled(false);
             cidadeJ.setEnabled(false);
             jButton6.setEnabled(false);
-                        panel.sendJogadorData(jogador);
-                        panel.repaint();
+            panel.sendJogadorData(jogador);
+            panel.repaint();
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Introduza um numero inteiro para o exercito.");
         }
 
 
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void checkDurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkDurActionPerformed
+        checkCusto.setSelected(false);
+        checkCustoMaximoCombate.setSelected(false);         
+        checkNumeroMaxCombates.setSelected(false);
+    }//GEN-LAST:event_checkDurActionPerformed
+
+    private void checkCustoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkCustoActionPerformed
+        checkDur.setSelected(false);
+        checkCustoMaximoCombate.setSelected(false);         
+        checkNumeroMaxCombates.setSelected(false);
+    }//GEN-LAST:event_checkCustoActionPerformed
+
+    private void checkCustoMaximoCombateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkCustoMaximoCombateActionPerformed
+       checkDur.setSelected(false);
+        checkCusto.setSelected(false);         
+        checkNumeroMaxCombates.setSelected(false);
+    }//GEN-LAST:event_checkCustoMaximoCombateActionPerformed
+
+    private void checkNumeroMaxCombatesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkNumeroMaxCombatesActionPerformed
+       checkDur.setSelected(false);
+        checkCusto.setSelected(false);         
+        checkCustoMaximoCombate.setSelected(false);
+    }//GEN-LAST:event_checkNumeroMaxCombatesActionPerformed
     public void setAdjacencias(Cidade cidade) throws ED_11_Parte1_Ex3.EmptyCollectionException {
 
         for (int i = 0; i < network.getVertices().length; i++) {
@@ -1109,9 +1225,10 @@ public class NewJFrame extends javax.swing.JFrame {
         }
 
     }
-    public int getItem(String cidade){
-        for(int i = 0 ; i < inicio.getItemCount();i++){
-            if(inicio.getItemAt(i).compareTo(cidade)==0){
+
+    public int getItem(String cidade) {
+        for (int i = 0; i < inicio.getItemCount(); i++) {
+            if (inicio.getItemAt(i).compareTo(cidade) == 0) {
                 return i;
             }
         }
@@ -1135,20 +1252,21 @@ public class NewJFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Demo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Demo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Demo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Demo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewJFrame().setVisible(true);
+                new Demo().setVisible(true);
             }
         });
     }
@@ -1160,8 +1278,13 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.JCheckBox checkCusto;
+    private javax.swing.JCheckBox checkCustoMaximoCombate;
     private javax.swing.JCheckBox checkDur;
+    private javax.swing.JCheckBox checkNumeroMaxCombates;
     private javax.swing.JComboBox<String> cidadeJ;
+    private javax.swing.JTextField custoMax;
+    private javax.swing.JTextField custoMaxCombate;
     private javax.swing.JTextField durMax;
     private javax.swing.JFormattedTextField exercitoJ;
     private javax.swing.JComboBox<String> fim;
@@ -1169,9 +1292,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton9;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -1187,10 +1307,8 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField nomeJ;
+    private javax.swing.JTextField numCombatesMax;
     private javax.swing.JPanel panelMain;
     private javax.swing.JLabel status;
     // End of variables declaration//GEN-END:variables
