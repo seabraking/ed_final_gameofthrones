@@ -7,6 +7,7 @@ package InterfaceGrafica;
 
 import Classes.Cidade;
 import Classes.Dijkstra;
+import Classes.Jogador;
 import ED_12_Parte1_Ex2.ArrayIterator;
 import ED_12_Parte1_Ex2.ArrayUnorderedList;
 import ED_12_Parte1_Ex2.EmptyCollectionException;
@@ -51,7 +52,9 @@ class ImagePanel extends JPanel {
   private boolean criterioNotFound= true;
   private double duracao;
   private String perdas;
-  
+  private Jogador jogador;
+  private boolean jogadorSet=false;
+  String strCidadesConquistadas= "";
   public ImagePanel(String img) {
     this(new ImageIcon(img).getImage());
   }
@@ -333,15 +336,18 @@ class ImagePanel extends JPanel {
     }
     g2.drawLine(172, 230, 105, 180);
     g2.setColor(Color.green);
+    
     // Qohor - Vaes
      ai = pathList.iterator();
      found = 0;
-    
     while(ai.hasNext()){
-        String previous = ai.next();
-
-        if(previous.contains("Qohor")){
-            found += 2;
+         String x1 ="";
+        String x = ai.next();
+        if(x.contains("Qohor")){
+            found += 1;
+        }
+        if(x.contains("Vaes")){
+            found += 1;
         }
     }
     if(found==2){
@@ -431,40 +437,98 @@ class ImagePanel extends JPanel {
     g2.drawLine(400, 290, 250, 240);
     
     //Desenhar Ponto
-    
-    g2.setColor(Color.red);
+    if(jogadorSet){
+    ArrayIterator<Cidade> tmp = jogador.getCidades().iterator();
+    boolean found1=false;
+    while(tmp.hasNext()){
+         String cd = tmp.next().getNome();
+         if(!strCidadesConquistadas.contains(cd)){
+            strCidadesConquistadas += " - " + cd;
+         }
+         
+        }
+    }
+    Color ourGreen = new Color(0,100,0);
+    System.out.println(strCidadesConquistadas);
+     if(strCidadesConquistadas.contains("Castle")){
+        g2.setColor(ourGreen);
+    } else {
+        g2.setColor(Color.red);
+    }
+     
     g2.fillOval(80, 50, 10, 10);
     g2.setColor(Color.black);
     g2.drawString("Castle Black", 80, 75);
-    g2.setColor(Color.red);
+     
+    System.out.println(jogadorSet);
+    
+    System.out.println(strCidadesConquistadas);
+    
+    if(strCidadesConquistadas.contains("Vaes")){
+        g2.setColor(ourGreen);
+    } else {
+        g2.setColor(Color.red);
+    }
+    
+  // if(jogador.getCidades().contains("Vaes")) g2.setColor(Color.CYAN);
+   // g2.setColor(Color.red);
     g2.fillOval(450, 230, 10, 10);
     g2.setColor(Color.black);
     g2.drawString("Winterfell", 40, 95);
     g2.setColor(Color.red);
+     if(strCidadesConquistadas.contains("Winter")){
+        g2.setColor(ourGreen);
+    } else {
+        g2.setColor(Color.red);
+    }
     g2.fillOval(40, 95, 10, 10);
     g2.setColor(Color.black);
     g2.drawString("Vaes Dothrak", 450, 230);
-    g2.setColor(Color.red);
+     if(strCidadesConquistadas.contains("The")){
+        g2.setColor(ourGreen);
+    } else {
+        g2.setColor(Color.red);
+    }
     g2.fillOval(105, 175, 10, 10);
     g2.setColor(Color.black);
     g2.drawString("The eyrie", 60, 175);
-    g2.setColor(Color.red);
+     if(strCidadesConquistadas.contains("Cross")){
+        g2.setColor(ourGreen);
+    } else {
+        g2.setColor(Color.red);
+    }
     g2.fillOval(85, 195, 10, 10);
     g2.setColor(Color.black);
     g2.drawString("Crossroads Inn", 25, 212);
-    g2.setColor(Color.red);
+    if(strCidadesConquistadas.contains("King")){
+        g2.setColor(ourGreen);
+    } else {
+        g2.setColor(Color.red);
+    }
     g2.fillOval(92, 235, 10, 10);
     g2.setColor(Color.black);
     g2.drawString("King's Landing", 32, 265);
-    g2.setColor(Color.red);
+    if(strCidadesConquistadas.contains("Pentos")){
+        g2.setColor(ourGreen);
+    } else {
+        g2.setColor(Color.red);
+    }
     g2.fillOval(172, 225, 10, 10);
     g2.setColor(Color.black);
     g2.drawString("Pentos", 162, 215);
-    g2.setColor(Color.red);
+    if(strCidadesConquistadas.contains("Qohor")){
+        g2.setColor(ourGreen);
+    } else {
+        g2.setColor(Color.red);
+    }
     g2.fillOval(250, 235, 10, 10);
     g2.setColor(Color.black);
     g2.drawString("Qohor", 250, 225);
-    g2.setColor(Color.red);
+    if(strCidadesConquistadas.contains("Lhaz")){
+        g2.setColor(ourGreen);
+    } else {
+        g2.setColor(Color.red);
+    }
     g2.fillOval(400, 285, 10, 10);
     g2.setColor(Color.black);
     g2.drawString("Lhazareen Village", 400, 305);
@@ -476,6 +540,11 @@ class ImagePanel extends JPanel {
         
        
   }
+
+    void sendJogadorData(Jogador jogador) {
+        this.jogador =  jogador;
+        jogadorSet=true;
+    }
 
 
    
