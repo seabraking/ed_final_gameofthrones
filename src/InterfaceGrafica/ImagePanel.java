@@ -11,6 +11,7 @@ import ED_12_Parte1_Ex2.ArrayIterator;
 import ED_12_Parte1_Ex2.ArrayUnorderedList;
 import ED_12_Parte1_Ex2.EmptyCollectionException;
 import ED_12_Parte1_Ex2.LinkedQueue;
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -101,7 +102,7 @@ class ImagePanel extends JPanel {
     
     if(!path.isEmpty()){
         g2.setColor(Color.MAGENTA);
-        g2.drawString("Shortest Path", 300, 20);
+        g2.drawString("Shortest Path", 250, 20);
         g2.setColor(Color.DARK_GRAY);
         String s1="";
         int pathsize = path.size();
@@ -120,8 +121,17 @@ class ImagePanel extends JPanel {
         }
         if(pathList.size()>1){
         
+        if(pathList.size()>5){
+            g2.setComposite(AlphaComposite.SrcOver.derive(0.8f));
+            g2.setColor(Color.white);
+            g2.fillRect(30-5, 35-10, 550, 50);
+            g2.setColor(Color.black);
+            g2.drawString(s1, 40, 35);
+        } else {
+            
+            g2.drawString(s1, 150, 30);
+        }
         
-        g2.drawString(s1, 150, 35);
         g2.setColor(Color.RED);
         g2.drawString("Perdas por batalha: " +perdas, 190, 50);
         g2.drawString("Perdas: " + Math.round(exercito), 190, 60);
@@ -326,14 +336,12 @@ class ImagePanel extends JPanel {
     // Qohor - Vaes
      ai = pathList.iterator();
      found = 0;
+    
     while(ai.hasNext()){
-         String x1 ="";
-        String x = ai.next();
-        if(x.contains("Vaes")){
-            found += 1;
-        }
-        if(x.contains("Qohor")){
-            found += 1;
+        String previous = ai.next();
+
+        if(previous.contains("Qohor")){
+            found += 2;
         }
     }
     if(found==2){
